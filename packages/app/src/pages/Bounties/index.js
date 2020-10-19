@@ -10,7 +10,7 @@ export default function() {
   };
 
   return (
-    <div>
+    <div style={{textAlign: 'center'}}>
       <input type="text" value={text} onChange={onChange} />
       <br />
       Echo: {text}

@@ -5,21 +5,22 @@ import {
   Route,
   Switch
 } from 'react-router-dom'
-import Bounties from "./pages/Bounties";
-import Header from './pages/Header'
+import Bounties from "../pages/Bounties";
+import Header from '../pages/Header'
+import { Wrapper } from "./components";
 
-function App() {
+function Index() {
   return (
     <Router>
       <Header />
-      <div className="wrapper">
+      <Wrapper>
         <Switch>
           <Route exact path="/" component={Bounties} />
           <Redirect to="/" />
         </Switch>
-      </div>
+      </Wrapper>
     </Router>
   );
 }
 
-export default App;
+export default Index;

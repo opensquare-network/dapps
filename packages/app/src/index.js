@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Index from './App';
 import * as serviceWorker from './serviceWorker';
 import GlobalStyle from "./GlobalStyle";
 import { RecoilRoot } from 'recoil'
@@ -11,7 +11,7 @@ ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
       <GlobalStyle />
-      <App />
+      <Index />
     </RecoilRoot>
   </React.StrictMode>,
   root
