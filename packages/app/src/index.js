@@ -4,15 +4,19 @@ import Index from './App';
 import * as serviceWorker from './serviceWorker';
 import GlobalStyle from "./GlobalStyle";
 import { RecoilRoot } from 'recoil'
+import { Provider } from 'react-redux'
+import store from './store'
 
 const root = document.getElementById('root');
 
 ReactDOM.render(
   <React.StrictMode>
-    <RecoilRoot>
-      <GlobalStyle />
-      <Index />
-    </RecoilRoot>
+    <Provider store={store}>
+      <RecoilRoot>
+        <GlobalStyle />
+        <Index />
+      </RecoilRoot>
+    </Provider>
   </React.StrictMode>,
   root
 );
