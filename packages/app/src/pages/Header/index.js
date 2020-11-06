@@ -1,11 +1,9 @@
 import React from 'react';
 import { Wrapper } from "./components";
-import { ReactComponent as Logo } from './logo.svg';
+import Logo from './logo.png'
 
 export default function() {
   return <Wrapper>
-    <div>
-      <Logo height={60} />
-    </div>
+    <img src={Logo} alt="" />
   </Wrapper>
 }

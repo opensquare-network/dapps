@@ -8,7 +8,11 @@ const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
   }
-
+  
+  #root {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export default GlobalStyle

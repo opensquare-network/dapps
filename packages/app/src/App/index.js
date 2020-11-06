@@ -7,9 +7,10 @@ import {
 } from 'react-router-dom'
 import Bounties from "../pages/Bounties";
 import Header from '../pages/Header'
+import Footer from "../pages/Footer"
 import { Wrapper } from "./components";
 
-function Index() {
+function App() {
   return (
     <Router>
       <Header />
@@ -19,8 +20,9 @@ function Index() {
           <Redirect to="/" />
         </Switch>
       </Wrapper>
+      <Footer />
     </Router>
   );
 }
 
-export default Index;
+export default App;
