@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const Wrapper = styled.div`
-  flex: 1;
+  min-height: calc(100vh - 148px);
   overflow-y: auto;
   
   background: #FBFBFB;
