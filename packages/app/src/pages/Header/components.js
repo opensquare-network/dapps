@@ -9,5 +9,6 @@ export const Wrapper = styled.header`
   
   img {
     height: 30px;
+    cursor: pointer;
   }
 `;

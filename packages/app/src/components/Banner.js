@@ -5,4 +5,11 @@ const Banner = styled.div`
   height: 144px;
 `;
 
+export const BannerTitle = styled.label`
+  font-size: 28px;
+  line-height: 44px;
+  color: #FFFFFF;
+  font-weight: bold;
+`
+
 export default Banner

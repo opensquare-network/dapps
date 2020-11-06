@@ -9,6 +9,7 @@ import Bounties from "../pages/Bounties";
 import Header from '../pages/Header'
 import Footer from "../pages/Footer"
 import { Wrapper } from "./components";
+import NewBounty from "@pages/NewBounty";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Wrapper>
         <Switch>
           <Route exact path="/" component={Bounties} />
+          <Route exact path="/fund" component={NewBounty} />
           <Redirect to="/" />
         </Switch>
       </Wrapper>

@@ -2,6 +2,8 @@ import React from 'react';
 import styled from "styled-components";
 import Banner from "../../components/Banner";
 import { Button, Input } from 'semantic-ui-react'
+import { useHistory } from 'react-router'
+import { BannerTitle } from "@components/Banner";
 
 const Wrapper = styled.main`
 
@@ -15,13 +17,6 @@ const BountiesBanner = styled(Banner)`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
-    & > label {
-      font-size: 28px;
-      line-height: 44px;
-      color: #FFFFFF;
-      font-weight: bold;
-    }
     
     @media screen and (min-width: 1140px) {
       width: 1128px;
@@ -44,14 +39,18 @@ const Search = styled.section`
 `
 
 export default function() {
+  const history = useHistory()
+
   return (
     <Wrapper>
       <BountiesBanner>
         <section>
-          <label>Bounty Explorer</label>
+          <BannerTitle>Bounty Explorer</BannerTitle>
           <Search>
             <Input icon='search' iconPosition='left' placeholder='Search Bounties...' />
-            <Button primary>New Bounty</Button>
+            <Button primary onClick={() => {
+              history.push(`/fund`)
+            }}>New Bounty</Button>
           </Search>
         </section>
       </BountiesBanner>
