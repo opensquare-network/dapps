@@ -10,12 +10,12 @@ import 'semantic-ui-css/semantic.min.css';
 const root = document.getElementById('root');
 
 ReactDOM.render(
-  <React.StrictMode>
+  <React.Fragment>
     <Provider store={store}>
       <GlobalStyle />
       <App />
     </Provider>
-  </React.StrictMode>,
+  </React.Fragment>,
   root
 );
 

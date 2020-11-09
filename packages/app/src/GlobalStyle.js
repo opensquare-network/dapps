@@ -14,6 +14,12 @@ const GlobalStyle = createGlobalStyle`
     flex-direction: column;
   }
   
+  ol, ul, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
   .ui.primary.button, .ui.primary.buttons .button {
     background: #04D2C5;
     
