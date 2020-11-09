@@ -4,6 +4,7 @@ import Banner from "../../components/Banner";
 import { Button, Input } from 'semantic-ui-react'
 import { useHistory } from 'react-router'
 import { BannerTitle } from "@components/Banner";
+import BountyList from "@pages/Bounties/BountyList";
 
 const Wrapper = styled.main`
 
@@ -54,6 +55,8 @@ export default function() {
           </Search>
         </section>
       </BountiesBanner>
+
+      <BountyList />
     </Wrapper>
   );
 }

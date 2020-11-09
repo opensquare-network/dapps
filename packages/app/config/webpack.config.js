@@ -291,6 +291,7 @@ module.exports = function(webpackEnv) {
       alias: {
         '@pages': path.resolve(__dirname, '../src/pages'),
         '@components': path.resolve(__dirname, '../src/components'),
+        '@static': path.resolve(__dirname, '../src/static'),
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',
