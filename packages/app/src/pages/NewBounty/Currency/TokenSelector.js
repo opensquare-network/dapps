@@ -31,9 +31,9 @@ const StyledDropDown = styled(Dropdown)`
 
 const options = [
   {
-    key: 'Native',
-    text: 'Native',
-    value: 'Native',
+    key: 'OSN',
+    text: 'OSN',
+    value: 'OSN',
     image: { src: '/imgs/opensquare-logo.svg', avatar: true }
   },
   {

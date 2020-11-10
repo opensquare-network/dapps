@@ -9,7 +9,10 @@ import Hint from "@components/Hint";
 import Currency from "@pages/NewBounty/Currency";
 
 const Wrapper = styled(Container)`
-  display: flex;
+  & > main {
+    display: flex;
+  }
+  margin-top: 26px;
 `
 
 const Editor = styled(Card)`

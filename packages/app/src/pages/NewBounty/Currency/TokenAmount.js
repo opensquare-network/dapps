@@ -22,7 +22,7 @@ export default function TokenAmount() {
     <Wrapper>
       <label>Amount</label>
       <Input
-        label={{ basic: true, content: 'Native' }}
+        label={{ basic: true, content: 'OSN' }}
         labelPosition='right'
         placeholder='Enter amount...'
       />

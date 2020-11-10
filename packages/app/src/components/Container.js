@@ -16,8 +16,8 @@ const Wrapper = styled.div`
 
 export default function Container({ className, children }) {
   return (
-    <Wrapper>
-      <main className={className}>
+    <Wrapper className={className}>
+      <main>
         {children}
       </main>
     </Wrapper>
