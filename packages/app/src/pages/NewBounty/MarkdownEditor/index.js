@@ -23,7 +23,7 @@ export default function MarkdownEditor() {
         onChange={setContent}
         selectedTab={selectedTab}
         onTabChange={setSelectedTab}
-        minEditorHeight={400}
+        minEditorHeight={500}
         toolbarCommands={[['bold', 'header', 'link', 'quote', 'strikethrough',
           'code', 'image', 'ordered-list', 'unordered-list']]}
       />

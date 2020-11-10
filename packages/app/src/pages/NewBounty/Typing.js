@@ -6,6 +6,7 @@ import Title from "@components/Title";
 import { Button, Input } from "semantic-ui-react";
 import MarkdownEditor from "@pages/NewBounty/MarkdownEditor";
 import Hint from "@components/Hint";
+import Currency from "@pages/NewBounty/Currency";
 
 const Wrapper = styled(Container)`
   display: flex;
@@ -77,6 +78,7 @@ export default function Typing() {
       <Editor>
         <Title>Title</Title>
         <Input placeholder='Input bounty title' />
+        <Currency />
         <MarkdownEditor />
       </Editor>
       <Summary>
