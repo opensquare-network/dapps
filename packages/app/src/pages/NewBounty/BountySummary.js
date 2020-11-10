@@ -6,6 +6,7 @@ import Hint from "@components/Hint";
 import { Button } from "semantic-ui-react";
 import { useSelector } from "react-redux";
 import { newBountyTokenAmountSelector, newBountyTokenSelector } from "@store/reducers/newBountySlice";
+import BigNumber from "bignumber.js";
 
 const Summary = styled.div`
   width: 360px;
@@ -83,9 +84,10 @@ export default function BountySummary() {
       setHunterFee(0)
       setPlatformFee(0)
     } else {
-      setShowAmount(parsed)
-      setHunterFee(parsed * 0.9)
-      setPlatformFee(parsed * .1)
+      const num = new BigNumber(parsed)
+      setShowAmount(num.toNumber())
+      setHunterFee(num.multipliedBy(0.9).toNumber())
+      setPlatformFee(num.multipliedBy(0.1).toNumber())
     }
   }, [amount])
 
