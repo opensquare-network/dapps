@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Dropdown } from "semantic-ui-react";
+import { tokenOptions } from "../../../constants/tokens";
+import { useDispatch } from "react-redux";
+import { setNewBountyToken } from "@store/reducers/newBountySlice";
 
 const Wrapper = styled.section`
   display: flex;
@@ -29,31 +32,18 @@ const StyledDropDown = styled(Dropdown)`
   }
 `;
 
-const options = [
-  {
-    key: 'OSN',
-    text: 'OSN',
-    value: 'OSN',
-    image: { src: '/imgs/opensquare-logo.svg', avatar: true }
-  },
-  {
-    key: 'DOT',
-    text: 'DOT',
-    value: 'DOT',
-    image: { src: '/imgs/polkadot-logo.svg', avatar: true }
-  },
-];
-
 export default function TokenSelector() {
+  const dispatch = useDispatch()
+
   return (
     <Wrapper>
       <label>Token</label>
       <StyledDropDown
-        options={options}
-        defaultValue={options[0].value}
+        options={tokenOptions}
+        defaultValue={tokenOptions[0].value}
         selection
         onChange={(v, d) => {
-          console.log(d)
+          dispatch(setNewBountyToken(d.value))
         }} />
     </Wrapper>
   )
