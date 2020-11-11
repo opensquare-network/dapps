@@ -3,10 +3,12 @@ import testReducer from './testSlice'
 import newBountyReducer from './newBountySlice'
 import explorerReducer from './explorerSlice'
 import chainReducer from './chainSlice'
+import accountReducer from './accountSlice'
 
 export default combineReducers({
   test: testReducer,
   newBounty: newBountyReducer,
   explorer: explorerReducer,
-  chain: chainReducer
+  chain: chainReducer,
+  account: accountReducer
 })
