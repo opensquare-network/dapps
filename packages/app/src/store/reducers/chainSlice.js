@@ -26,5 +26,7 @@ export const fetchProperties = () => async dispatch => {
 }
 
 export const { setProperties } = chainSlice.actions
+export const ss58FormatSelector = state => state.chain.properties.ss58Format
+export const osnPrecisionSelector = state => state.chain.properties.tokenDecimals
 
 export default chainSlice.reducer
