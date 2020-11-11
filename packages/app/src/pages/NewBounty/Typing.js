@@ -8,7 +8,7 @@ import MarkdownEditor from "@pages/NewBounty/MarkdownEditor";
 import Currency from "@pages/NewBounty/Currency";
 import { useDispatch, useSelector } from "react-redux";
 import { newBountyTitleSelector, setNewBountyTitle } from "@store/reducers/newBountySlice";
-import BountySummary from "@pages/NewBounty/BountySummary";
+import BountyAction from "@pages/NewBounty/BountyAction";
 
 const Wrapper = styled(Container)`
   & > main {
@@ -44,7 +44,7 @@ export default function Typing() {
         <Currency />
         <MarkdownEditor />
       </Editor>
-      <BountySummary />
+      <BountyAction />
     </Wrapper>
   )
 }

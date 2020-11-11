@@ -3,12 +3,12 @@ import styled from "styled-components";
 import Card from "@components/Card";
 import Title from "@components/Title";
 import Hint from "@components/Hint";
-import { Button } from "semantic-ui-react";
 import { useSelector } from "react-redux";
 import { newBountyTokenAmountSelector, newBountyTokenSelector } from "@store/reducers/newBountySlice";
 import BigNumber from "bignumber.js";
+import Action from "@pages/NewBounty/BountyAction/Action";
 
-const Summary = styled.div`
+const Wrapper = styled.div`
   width: 360px;
   margin-left: 24px;
 `
@@ -69,7 +69,7 @@ const Token = styled.span`
   color: rgba(29, 37, 60, 0.64);
 `
 
-export default function BountySummary() {
+export default function BountyAction() {
   const [showAmount, setShowAmount] = useState(null)
   const [hunterFee, setHunterFee] = useState(null)
   const [platformFee, setPlatformFee] = useState(null)
@@ -92,7 +92,7 @@ export default function BountySummary() {
   }, [amount])
 
   return (
-    <Summary>
+    <Wrapper>
       <SummaryCard>
         <Title>Total</Title>
         <SummaryInfo>
@@ -111,10 +111,8 @@ export default function BountySummary() {
             </li>
           </ol>
         </SummaryInfo>
-        <Button primary onClick={() => {
-          console.log('fund')
-        }}>Fund Bounty</Button>
+        <Action />
       </SummaryCard>
-    </Summary>
+    </Wrapper>
   )
 }
