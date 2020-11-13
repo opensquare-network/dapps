@@ -20,7 +20,11 @@ const GlobalStyle = createGlobalStyle`
     background: #04D2C5;
     
     &:hover, &:active, &:focus {
-      background: #04D2C5;
+      background: #40DDD3;
+    }
+    
+    &:focus {
+      background: #04B9AD;
     }
   }
   
