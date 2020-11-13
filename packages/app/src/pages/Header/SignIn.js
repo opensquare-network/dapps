@@ -4,11 +4,12 @@ import { isWeb3Injected, web3Accounts, web3Enable, web3FromAddress } from '@polk
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import { useDispatch, useSelector } from "react-redux";
 import { ss58FormatSelector } from "@store/reducers/chainSlice";
-import { Icon, Modal } from "semantic-ui-react";
+import { Modal } from "semantic-ui-react";
 import Addr from "@components/Address";
 import { getApi } from "@services/api";
 import { nowAddressSelector, setAccount } from "@store/reducers/accountSlice";
 import ClipboardJS from 'clipboard'
+import Account from "@pages/Header/Account";
 
 const SignInWrapper = styled.span`
   cursor: pointer;
@@ -16,18 +17,6 @@ const SignInWrapper = styled.span`
   &:hover {
     color: #04D2C5;
   }
-`
-
-const AccountWrapper = styled.span`
-  i {
-    margin-left: 10px;
-    cursor: pointer;
-    
-    &:not(:first-of-type) {
-      margin-left: 3px;
-    }
-  }
-  
 `
 
 const SignInModal = styled(Modal)`
@@ -51,7 +40,6 @@ export default function() {
   const [noExtensionModalOpen, setNoExtensionModalOpen] = useState(false)
   const [accounts, setAccounts] = useState([])
   const nowAddress = useSelector(nowAddressSelector)
-  const [copied, setCopied] = useState(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -96,29 +84,7 @@ export default function() {
     <>
       {
         nowAddress ?
-          <AccountWrapper>
-            <Addr>{nowAddress}</Addr>
-            <Icon name="edit" title="Change Account" onClick={() => setModalOpen(true)} />
-            {
-              copied ?
-                <Icon name="check circle" title="Copied" color="grey" />
-                :
-                <Icon
-                  className="clipboard"
-                  data-clipboard-text={nowAddress}
-                  name="copy outline"
-                  title="Copy"
-                  onClick={() => {
-                    setCopied(true)
-                    setTimeout(() => {
-                      setCopied(false)
-                    }, 1000)
-                  }} />
-            }
-            <Icon name="sign-out" title="Sign Out" onClick={() => {
-              dispatch(setAccount(null))
-            }} />
-          </AccountWrapper>
+          <Account setModalOpen={setModalOpen} />
           :
           <SignInWrapper onClick={signIn}>Sign in</SignInWrapper>
       }

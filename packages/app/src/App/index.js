@@ -7,6 +7,7 @@ import { Wrapper } from "./components";
 import NewBounty from "@pages/NewBounty";
 import { useDispatch } from "react-redux";
 import { fetchProperties } from "@store/reducers/chainSlice";
+import Profile from "@pages/Profile";
 
 function App() {
   const dispatch = useDispatch()
@@ -22,6 +23,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Bounties} />
           <Route exact path="/fund" component={NewBounty} />
+          <Route exact path="/profile" component={Profile} />
           <Redirect to="/" />
         </Switch>
       </Wrapper>
