@@ -13,6 +13,7 @@ app
   .use(bodyParser())
   .use(cors())
   .use(helmet());
+require("./routes")(app);
 
 const server = http.createServer(app.callback());
 

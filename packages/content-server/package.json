@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@koa/cors": "^3.1.0",
+    "@polkadot/util-crypto": "^4.0.1",
     "@types/sequelize": "^4.28.9",
     "dotenv": "^8.2.0",
     "koa": "^2.13.0",
@@ -13,6 +14,10 @@
     "koa-router": "^10.0.0",
     "pg": "^8.5.0",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "@types/koa-router": "^7.4.1"
   }
 }
