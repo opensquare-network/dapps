@@ -31,6 +31,10 @@ const GlobalStyle = createGlobalStyle`
   .ui.input.focus>input, .ui.input>input:focus {
     border-color: #04D2C5;
   }
+  
+  .ui.input.error>input:focus {
+    border-color: #EC4730;;
+  }
 `;
 
 export default GlobalStyle
