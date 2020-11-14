@@ -16,6 +16,7 @@ import testKeyring from "@polkadot/keyring/testing"
 import { osnPrecisionSelector, ss58FormatSelector } from "@store/reducers/chainSlice";
 import { encodeAddress } from "@polkadot/keyring";
 import BigNumber from "bignumber.js";
+import { postContent } from "@services/contentServer";
 
 export default function Action() {
   const token = useSelector(newBountyTokenSelector)
@@ -48,6 +49,7 @@ export default function Action() {
       return
     }
 
+    await postContent(description)
     const keyring = testKeyring()
     keyring.setSS58Format(ss58Format)
     const alice = keyring.pairs[0]
