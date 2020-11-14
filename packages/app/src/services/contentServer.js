@@ -4,7 +4,6 @@ export async function postContent(content) {
   const hash = blake2AsHex(content)
   const url = new URL('/content', process.env.REACT_APP_CONTENT_SERVER_URL)
 
-  debugger
   const response = await window.fetch(url.href, {
     method: 'post',
     headers: {

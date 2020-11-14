@@ -72,7 +72,7 @@ export default function() {
   }
 
   const signInWithAddress = async account => {
-    const injector = web3FromAddress(account.extensionAddress)
+    const injector = await web3FromAddress(account.extensionAddress)
 
     const api = await getApi()
     api.setSigner(injector.signer)

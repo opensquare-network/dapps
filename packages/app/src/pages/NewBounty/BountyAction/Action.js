@@ -17,6 +17,8 @@ import { osnPrecisionSelector, ss58FormatSelector } from "@store/reducers/chainS
 import { encodeAddress } from "@polkadot/keyring";
 import BigNumber from "bignumber.js";
 import { postContent } from "@services/contentServer";
+import { accountSelector, isLoginSelector } from "@store/reducers/accountSlice";
+import ErrorLine from "@components/ErrorLine";
 
 export default function Action() {
   const token = useSelector(newBountyTokenSelector)
@@ -24,6 +26,8 @@ export default function Action() {
   const amount = useSelector(newBountyTokenAmountSelector)
   const description = useSelector(newBountyContentSelector)
   const precision = useSelector(osnPrecisionSelector)
+  const isLogin = useSelector(isLoginSelector)
+  const account = useSelector(accountSelector)
 
   const ss58Format = useSelector(ss58FormatSelector)
   const dispatch = useDispatch()
@@ -52,14 +56,13 @@ export default function Action() {
     await postContent(description)
     const keyring = testKeyring()
     keyring.setSS58Format(ss58Format)
-    const alice = keyring.pairs[0]
 
     const api = await getApi()
     const realAmount = new BigNumber(amount).multipliedBy(Math.pow(10, precision)).toNumber()
-    const bounty = newBounty(alice.address, token, realAmount, title, description)
+    const bounty = newBounty(account.address, token, realAmount, title, description)
 
     const unsub = await api.tx.osBounties.createBounty(bounty)
-      .signAndSend(alice, async ({ events = [], status }) => {
+      .signAndSend(account.extensionAddress, async ({ events = [], status }) => {
         for (const item of events) {
           console.log('events', events)
           const { event } = item
@@ -81,6 +84,16 @@ export default function Action() {
   }
 
   return (
-    <Button primary onClick={create}>Fund Bounty</Button>
+    <>
+      <Button
+        disabled={!isLogin}
+        primary
+        onClick={create}>
+        Fund Bounty
+      </Button>
+      {
+        !isLogin && <ErrorLine>Please sign in to create bounty</ErrorLine>
+      }
+    </>
   )
 }

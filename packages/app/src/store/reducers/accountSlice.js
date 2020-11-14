@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSelector, createSlice } from '@reduxjs/toolkit'
 
 const accountSlice = createSlice({
   name: 'account',
@@ -13,6 +13,9 @@ const accountSlice = createSlice({
 })
 
 export const accountSelector = state => state.account.account
+export const isLoginSelector = createSelector(accountSelector, account => {
+  return !!account
+})
 export const nowAddressSelector = state => state.account.account?.address
 export const { setAccount } = accountSlice.actions
 export default accountSlice.reducer
