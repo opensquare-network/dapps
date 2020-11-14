@@ -19,6 +19,7 @@ import BigNumber from "bignumber.js";
 import { postContent } from "@services/contentServer";
 import { accountSelector, isLoginSelector } from "@store/reducers/accountSlice";
 import ErrorLine from "@components/ErrorLine";
+import { addFlashToast, toastType } from "@store/reducers/toastSlice";
 
 export default function Action() {
   const token = useSelector(newBountyTokenSelector)
@@ -63,15 +64,21 @@ export default function Action() {
 
     const unsub = await api.tx.osBounties.createBounty(bounty)
       .signAndSend(account.extensionAddress, async ({ events = [], status }) => {
+        console.log('status', status)
+        if (status.isInBlock) {
+          dispatch(addFlashToast(toastType.INFO, 'Extrinsic inBlock'))
+        }
+
         for (const item of events) {
           console.log('events', events)
           const { event } = item
           const method = event.method
           const data = event.data.toJSON()
 
-          if ('ApplyBounty' === method) {
+          if ('ApplyBounty' === method && status.isFinalized) {
             const [accountId, bountyId] = data
             console.log(`${encodeAddress(accountId, ss58Format)} created bounty ${bountyId}`)
+            dispatch(addFlashToast(toastType.SUCCESS, 'Bounty created, and please wait for the council review'))
           }
         }
 

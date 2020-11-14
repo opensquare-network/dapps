@@ -5,6 +5,7 @@ import explorerReducer from './explorerSlice'
 import chainReducer from './chainSlice'
 import accountReducer from './accountSlice'
 import balanceReducer from './balanceSlice'
+import toastReducer from './toastSlice'
 
 export default combineReducers({
   test: testReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   explorer: explorerReducer,
   chain: chainReducer,
   account: accountReducer,
-  balance: balanceReducer
+  balance: balanceReducer,
+  toast: toastReducer
 })

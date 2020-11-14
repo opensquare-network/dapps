@@ -8,6 +8,7 @@ import NewBounty from "@pages/NewBounty";
 import { useDispatch } from "react-redux";
 import { fetchProperties } from "@store/reducers/chainSlice";
 import Profile from "@pages/Profile";
+import ToastContainer from "./ToastContainer";
 
 function App() {
   const dispatch = useDispatch()
@@ -19,6 +20,7 @@ function App() {
   return (
     <Router>
       <Header />
+      <ToastContainer />
       <Wrapper>
         <Switch>
           <Route exact path="/" component={Bounties} />
