@@ -1,11 +1,14 @@
 import { Button } from "semantic-ui-react";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   newBountyContentSelector,
   newBountyTitleSelector,
   newBountyTokenAmountSelector,
-  newBountyTokenSelector
+  newBountyTokenSelector,
+  setNewBountyAmountError,
+  setNewBountyDetailError,
+  setNewBountyTitleError
 } from "@store/reducers/newBountySlice";
 import { getApi } from "@services/api";
 import { newBounty } from "@pages/NewBounty/BountyAction/utils";
@@ -22,20 +25,27 @@ export default function Action() {
   const precision = useSelector(osnPrecisionSelector)
 
   const ss58Format = useSelector(ss58FormatSelector)
+  const dispatch = useDispatch()
 
   const create = async () => {
-    /**
-     * TODO:
-     * 1. title|amount|description should not be empty
-     * 2. amount should be numerical
-     */
-
-    if (!title || !description || !amount) {
-      throw new Error('Fill the content')
+    let hasError = false
+    if (!title) {
+      dispatch(setNewBountyTitleError('Title can not be empyt'))
+      hasError = true
     }
 
-    if (isNaN(parseFloat(amount))) {
-      throw new Error('Invalid amount')
+    if (!description) {
+      dispatch(setNewBountyDetailError('Description can not be empty'))
+      hasError = true
+    }
+
+    if (!amount || isNaN(parseFloat(amount))) {
+      dispatch(setNewBountyAmountError('Invalid amount value'))
+      hasError = true
+    }
+
+    if (hasError) {
+      return
     }
 
     const keyring = testKeyring()

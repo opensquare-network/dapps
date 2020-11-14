@@ -4,6 +4,9 @@ import Title from "@components/Title";
 import Hint from "@components/Hint";
 import TokenSelector from "@pages/NewBounty/Currency/TokenSelector";
 import TokenAmount from "@pages/NewBounty/Currency/TokenAmount";
+import ErrorLine from "@components/ErrorLine";
+import { useSelector } from "react-redux";
+import { amountErrorSelector } from "@store/reducers/newBountySlice";
 
 const Wrapper = styled.div`
   margin-top: 20px;
@@ -21,6 +24,7 @@ const Wrapper = styled.div`
 `
 
 export default function Currency() {
+  const amountError = useSelector(amountErrorSelector)
   return (
     <Wrapper>
       <Title>Currency</Title>
@@ -31,6 +35,9 @@ export default function Currency() {
         <TokenSelector />
         <TokenAmount />
       </section>
+      {
+        amountError && <ErrorLine>{amountError}</ErrorLine>
+      }
     </Wrapper>
   )
 }

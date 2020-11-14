@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const StyledTextArea = styled.div`
   margin-top: 20px;
   
-  & > section {
-    margin-bottom: 8px;
+  & > p {
+    margin-top: 8px;
   }
   
 	textarea {

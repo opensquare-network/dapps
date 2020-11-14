@@ -9,7 +9,10 @@ const newBountySlice = createSlice({
     title: '',
     content: '',
     token: tokenOptions[0].value,
-    amount: ''
+    amount: '',
+    titleError: null,
+    amountError: null,
+    detailError: null,
   },
   reducers: {
     setType(state, { payload }) {
@@ -26,6 +29,15 @@ const newBountySlice = createSlice({
     },
     setContent(state, { payload }) {
       state.content = payload
+    },
+    setTitleError(state, { payload }) {
+      state.titleError = payload
+    },
+    setAmountError(state, { payload }) {
+      state.amountError = payload
+    },
+    setDetailError(state, { payload }) {
+      state.detailError = payload
     }
   }
 })
@@ -36,6 +48,9 @@ export const {
   setToken: setNewBountyToken,
   setAmount: setNewBountyAmount,
   setContent: setNewBountyContent,
+  setTitleError: setNewBountyTitleError,
+  setAmountError: setNewBountyAmountError,
+  setDetailError: setNewBountyDetailError,
 } = newBountySlice.actions
 
 export const newBountySourceSelector = state => state.newBounty.type
@@ -43,5 +58,8 @@ export const newBountyTitleSelector = state => state.newBounty.title
 export const newBountyTokenSelector = state => state.newBounty.token
 export const newBountyTokenAmountSelector = state => state.newBounty.amount
 export const newBountyContentSelector = state => state.newBounty.content
+export const titleErrorSelector = state => state.newBounty.titleError
+export const amountErrorSelector = state => state.newBounty.amountError
+export const detailErrorSelector = state => state.newBounty.detailError
 
 export default newBountySlice.reducer
