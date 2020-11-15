@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import Addr from "@components/Address";
-import { Icon } from "semantic-ui-react";
-import { nowAddressSelector, setAccount } from "@store/reducers/accountSlice";
-import React, { useEffect, useState } from "react";
+import { nowAddressSelector } from "@store/reducers/accountSlice";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { setBalances } from "@store/reducers/balanceSlice";
@@ -11,24 +10,21 @@ import { getApi } from "@services/api";
 const AccountWrapper = styled.span`
   & > a {
     color: unset;
-    &:hover {
+    & > span {
+      margin-left: 8px;
       color: #04D2C5;
-    }
-  }
-
-  i {
-    margin-left: 10px;
-    cursor: pointer;
-    
-    &:not(:first-of-type) {
-      margin-left: 3px;
+      &:hover {
+        color: #04B9AD;
+      }
+      &:focus {
+        color: #04B9AD;
+      }
     }
   }
 `
 
-export default function Account({ setModalOpen }) {
+export default function Account() {
   const nowAddress = useSelector(nowAddressSelector)
-  const [copied, setCopied] = useState(false)
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -62,28 +58,8 @@ export default function Account({ setModalOpen }) {
         event.preventDefault()
         history.push('/profile')
       }}>
-        <Addr>{nowAddress}</Addr>
+        Hello, <Addr>{nowAddress}</Addr>
       </a>
-      <Icon name="edit" title="Change Account" onClick={() => setModalOpen(true)} />
-      {
-        copied ?
-          <Icon name="check circle" title="Copied" color="grey" />
-          :
-          <Icon
-            className="clipboard"
-            data-clipboard-text={nowAddress}
-            name="copy outline"
-            title="Copy"
-            onClick={() => {
-              setCopied(true)
-              setTimeout(() => {
-                setCopied(false)
-              }, 1000)
-            }} />
-      }
-      <Icon name="sign-out" title="Sign Out" onClick={() => {
-        dispatch(setAccount(null))
-      }} />
     </AccountWrapper>
   )
 }

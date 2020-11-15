@@ -7,7 +7,12 @@ import { ss58FormatSelector } from "@store/reducers/chainSlice";
 import { Modal } from "semantic-ui-react";
 import Addr from "@components/Address";
 import { getApi } from "@services/api";
-import { nowAddressSelector, setAccount } from "@store/reducers/accountSlice";
+import {
+  accountsModalOpenSelector,
+  nowAddressSelector,
+  setAccount,
+  setAccountsModalOpen
+} from "@store/reducers/accountSlice";
 import ClipboardJS from 'clipboard'
 import Account from "@pages/Header/Account";
 
@@ -36,11 +41,12 @@ const SignInModal = styled(Modal)`
 
 export default function() {
   const ss58Format = useSelector(ss58FormatSelector)
-  const [modalOpen, setModalOpen] = useState(false)
   const [noExtensionModalOpen, setNoExtensionModalOpen] = useState(false)
   const [accounts, setAccounts] = useState([])
   const nowAddress = useSelector(nowAddressSelector)
   const dispatch = useDispatch()
+
+  const accountsModalOpen = useSelector(accountsModalOpenSelector)
 
   useEffect(() => {
     const clipBoard = new ClipboardJS('.clipboard')
@@ -68,7 +74,7 @@ export default function() {
     })
 
     setAccounts(accounts)
-    setModalOpen(true)
+    dispatch(setAccountsModalOpen(true))
   }
 
   const signInWithAddress = async account => {
@@ -77,22 +83,24 @@ export default function() {
     const api = await getApi()
     api.setSigner(injector.signer)
     dispatch(setAccount(account))
-    setModalOpen(false)
+    dispatch(setAccountsModalOpen(false))
   }
 
   return (
     <>
       {
         nowAddress ?
-          <Account setModalOpen={setModalOpen} />
+          <Account />
           :
           <SignInWrapper onClick={signIn}>Sign in</SignInWrapper>
       }
 
       <SignInModal
         size="mini"
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
+        open={accountsModalOpen}
+        onClose={() =>
+          dispatch(setAccountsModalOpen(false))
+        }
       >
         <Modal.Header>Select accounts</Modal.Header>
         <Modal.Content className="account-select-content">

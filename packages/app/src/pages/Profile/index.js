@@ -8,7 +8,7 @@ import { osnPrecisionSelector } from "@store/reducers/chainSlice";
 import { toPrecision } from "../../utils";
 import Tabs from "@pages/Profile/Tabs";
 import Avatar from "@pages/Profile/Avatar";
-import Addr from "@components/Address";
+import Account from "@pages/Profile/Account";
 
 const Wrapper = styled.div`
   padding-bottom: 30px;
@@ -43,11 +43,13 @@ const Info = styled.section`
   margin-left: 24px;
   
   & > h3 {
+    display: flex;
     margin: 0;
     font-weight: bold;
     font-size: 18px;
     line-height: 32px;
     color: #FFFFFF;
+    
   }
   
   ol {
@@ -88,7 +90,7 @@ export default function Profile() {
               <h3>
                 {
                   address ?
-                    <Addr length={9}>{address}</Addr>
+                    <Account />
                     : '--'
                 }
               </h3>
