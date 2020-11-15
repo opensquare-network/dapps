@@ -16,8 +16,7 @@ const Wrapper = styled(Container)`
 
 const Editor = styled(Card)`
   flex: 1;
-  min-height: 976px;
-  
+  min-height: 850px;
 `
 
 export default function Typing() {

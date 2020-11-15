@@ -6,6 +6,9 @@ import { nowAddressSelector } from "@store/reducers/accountSlice";
 import { freeBalanceSelector, reservedBalanceSelector } from "@store/reducers/balanceSlice";
 import { osnPrecisionSelector } from "@store/reducers/chainSlice";
 import { toPrecision } from "../../utils";
+import Tabs from "@pages/Profile/Tabs";
+import Avatar from "@pages/Profile/Avatar";
+import Addr from "@components/Address";
 
 const Wrapper = styled.div`
   padding-bottom: 30px;
@@ -31,11 +34,21 @@ export const ProfileBanner = styled(Banner)`
   }
 `
 
+const Left = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 const Info = styled.section`
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 32px;
-  color: #FFFFFF;
+  margin-left: 24px;
+  
+  & > h3 {
+    margin: 0;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 32px;
+    color: #FFFFFF;
+  }
   
   ol {
     display: flex;
@@ -51,6 +64,7 @@ const Info = styled.section`
       }
       
       span {
+        color: rgba(255, 255, 255, 0.72);
         margin-left: 5px;
       }
     }
@@ -68,21 +82,31 @@ export default function Profile() {
     <Wrapper>
       <ProfileBanner>
         <section>
-          <Info>
-            <h3>{address || '--'}</h3>
-            <ol>
-              <li>
-                <label>Free:</label>
-                <span>{toPrecision(free, precision, false)} OSN</span>
-              </li>
-              <li>
-                <label>Reserved:</label>
-                <span>{toPrecision(reserved, precision, false)} OSN</span>
-              </li>
-            </ol>
-          </Info>
+          <Left>
+            <Avatar />
+            <Info>
+              <h3>
+                {
+                  address ?
+                    <Addr length={9}>{address}</Addr>
+                    : '--'
+                }
+              </h3>
+              <ol>
+                <li>
+                  <label>Free</label>
+                  <span>{toPrecision(free, precision, false)} OSN</span>
+                </li>
+                <li>
+                  <label>Reserved:</label>
+                  <span>{toPrecision(reserved, precision, false)} OSN</span>
+                </li>
+              </ol>
+            </Info>
+          </Left>
         </section>
       </ProfileBanner>
+      <Tabs />
     </Wrapper>
   )
 }
