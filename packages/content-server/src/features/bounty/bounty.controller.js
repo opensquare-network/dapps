@@ -34,7 +34,7 @@ class BountyController {
       }
     )
 
-    if (result.result && !result.result.ok) {
+    if (!result.ok) {
       ctx.status = 500;
       ctx.body = { error: "DB insertion failed" };
       return;
