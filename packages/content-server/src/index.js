@@ -5,7 +5,7 @@ const logger = require("koa-logger");
 const helmet = require("koa-helmet");
 const http = require("http");
 const cors = require("@koa/cors");
-const db = require(__dirname + "/../models");
+const { initDb } = require('./mongo')
 
 const app = new Koa();
 app
@@ -17,9 +17,7 @@ require("./routes")(app);
 
 const server = http.createServer(app.callback());
 
-db.sequelize.authenticate().then(() => {
-  app.context.db = db;
-
+initDb().then(() => {
   const port = process.env.SERVER_PORT || 4000;
   server.listen(port, () => console.log(`✅  The server is running at http://localhost:${port}/`));
 })

@@ -1,22 +1,20 @@
 const { blake2AsHex } = require('@polkadot/util-crypto')
+const { getContentCollection } = require('../../mongo')
 
 class BountyController {
   async getDescription(ctx) {
     const { hash } = ctx.params;
 
-    const content = await ctx.db.Content.findOne({
-      attributes: ['content'],
-      where: { hash },
-      raw: true
-    })
+    const col = await getContentCollection()
+    const row = await col.findOne({ hash })
 
-    if (!content) {
+    if (!row) {
       ctx.status = 404;
       ctx.body = { error: "not found" };
       return;
     }
 
-    ctx.body = content
+    ctx.body = row
   }
 
   async saveBountyDescription(ctx) {
@@ -29,9 +27,21 @@ class BountyController {
       return;
     }
 
-    const content = await ctx.db.Content.create({ hash, content: description })
+    const col = await getContentCollection()
+    const result = await col.findOneAndUpdate({ hash }, { $set: { content: description } },
+      {
+        upsert: true
+      }
+    )
+
+    if (result.result && !result.result.ok) {
+      // TODO: Handle insertion failed
+    }
+
     ctx.status = 201
-    ctx.body = content
+    ctx.body = {
+      hash, content: description
+    }
   }
 }
 
