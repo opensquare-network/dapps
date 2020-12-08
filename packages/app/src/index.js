@@ -6,6 +6,7 @@ import GlobalStyle from "./GlobalStyle";
 import { Provider } from 'react-redux'
 import store from './store'
 import 'semantic-ui-css/semantic.min.css';
+import 'antd/dist/antd.css';
 
 const root = document.getElementById('root');
 
