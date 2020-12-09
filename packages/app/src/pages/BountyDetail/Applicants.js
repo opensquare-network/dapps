@@ -30,7 +30,7 @@ const ApplicantItem = styled.li`
 export default function ({ hunters, assignee }) {
   return (
     <Wrapper>
-      <div className="title">Applicatis</div>
+      <div className="title">Applicants</div>
       <Applicants>
         { hunters.map(hunter => (
           <ApplicantItem key={hunter.accountId}>

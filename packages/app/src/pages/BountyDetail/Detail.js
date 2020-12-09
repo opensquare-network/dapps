@@ -126,11 +126,11 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
         </InfoWrapper>
       }
       <ButtonWrapper>
-        <Button basic>
+        <Button basic disabled>
           <Icon name="share alternate" />
           Share
         </Button>
-        <Button basic>
+        <Button basic disabled>
           <Icon name="github" />
           Via on Github
         </Button>
