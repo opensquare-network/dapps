@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { getApi } from "@services/api";
+import { blockPerSession } from '../../utils/constants';
 
 const miningPowerSlice = createSlice({
   name: 'miningPower',
@@ -24,7 +25,11 @@ export const fetchSessionMiningPower = address => async dispatch => {
   }
   try {
     const api = await getApi()
-    const result = await api.query.osMining.sessionAccountMiningPower(0, address)
+    const hash = await api.rpc.chain.getFinalizedHead()
+    const block = await api.rpc.chain.getBlock(hash)
+    const lastBlockHeight = block.block.header.number
+    const sessionIndex = Math.floor(lastBlockHeight / blockPerSession)
+    const result = await api.query.osMining.sessionAccountMiningPower(sessionIndex, address)
     dispatch(setSessionMiningPower(result.toNumber()))
   } finally {
   }
