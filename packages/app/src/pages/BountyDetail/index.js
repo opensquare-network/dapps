@@ -5,10 +5,13 @@ import styled from "styled-components";
 import { useHistory, useParams } from 'react-router'
 import Container from "@components/Container";
 import Card from "@components/Card";
-import ReactMarkdown from 'react-markdown';
-import HexText from "../../components/HexText";
-import DateShow from "../../components/DateShow";
 import { NavLink } from "react-router-dom";
+import { Divider } from "semantic-ui-react";
+
+import Detail from "./Detail";
+import Description from "./Description";
+import Applicants from "./Applicants";
+import backArrow from "@static/back-arrow.svg";
 
 const Wrapper = styled(Container)`
   margin-top: 26px;
@@ -16,39 +19,24 @@ const Wrapper = styled(Container)`
 
 const Content = styled(Card)`
   min-height: 360px;
-  & > .title {
-    font-size: 16px;
-    font-weight: bold;
-  }
 `
 const Nav = styled.nav`
   color: rgba(29, 37, 60, 0.64);
-  padding-bottom: 10px;
-`
-
-const Applicants = styled.ul`
-  display: flex;
-  flex-flow: wrap;
-`
-
-const ApplicantItem = styled.li`
-  flex: 1;
-  border: 1px solid #EEEEEE;
-  padding: 10px;
-  margin: 10px;
-
-  & > .title {
-    padding-top: 10px;
-    font-weight: bold;
-  }
+  margin-bottom: 26px;
+  display: inline-flex;
+  aligin-items: center;
+  gap: 10px;
 `
 
 export default function() {
+  // eslint-disable-next-line
   const history = useHistory()
   const { bountyId } = useParams()
   const dispatch = useDispatch()
   const bounty = useSelector(bountySelector)
   const content = useSelector(bountyContentSelector)
+
+  console.log({bounty, content})
 
   useEffect(() => {
     if (bountyId) {
@@ -57,6 +45,7 @@ export default function() {
   }, [dispatch, bountyId])
 
   const {
+    // eslint-disable-next-line
     creator,
     meta: {
       V1: {
@@ -67,6 +56,7 @@ export default function() {
       }
     },
     state: {
+      // eslint-disable-next-line
       state
     },
   } = bounty || {
@@ -82,30 +72,30 @@ export default function() {
     }
   }, [dispatch, digest])
 
+  // fake detail data
+  const fakeDetailData = {
+    avatar: "",
+    labels: ["N/A", "N/A"],
+    info: [
+      { title: "Time Left", content: "N/A" },
+      { title: "Experience Level", content: "N/A" },
+      { title: "Issue Type", content: "N/A" },
+      { title: "Workers Auto Approve", content: "N/A" },
+      { title: "Opened", content: "N/A" },
+    ]
+  };
+
   return (
     <Wrapper>
       <NavLink to="/">
-        <Nav>&lt;&nbsp;Back to issue Explorer</Nav>
+        <Nav><img src={backArrow} alt="back arrow" /> Back to issue Explorer</Nav>
       </NavLink>
       <Content>
-        <HexText className="title" value={title}/>
-        <hr/>
-        <ReactMarkdown>{content?.content || 'No data'}</ReactMarkdown>
-        <hr />
-        <h4>Applicants</h4>
-        <Applicants>
-        { hunters.map(hunter => (
-          <ApplicantItem key={hunter.accountId}>
-            <div className="title">Hunter Address</div>
-            <div>{hunter.accountId}</div>
-            <div className="title">Applied At</div>
-            <DateShow value={hunter.indexer.blockTime} />
-            <div className="title">Assignee</div>
-            <div>{assignee?.accountId === hunter.accountId ? 'Yes' : 'No' }</div>
-          </ApplicantItem>
-          ))
-        }
-        </Applicants>
+        <Detail title={title} amount={amount} currency={currency} {...fakeDetailData} />
+        <Divider />
+        <Description md={content?.content || 'No data'}></Description>
+        <Divider />
+        <Applicants assignee={assignee} hunters={hunters} />
       </Content>
     </Wrapper>
   );
