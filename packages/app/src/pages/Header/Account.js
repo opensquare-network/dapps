@@ -47,6 +47,7 @@ export default function Account() {
     return () => {
       if (unsub) {
         unsub()
+        dispatch(setBalances({ free: 0, resevered: 0 }))
       }
     }
 

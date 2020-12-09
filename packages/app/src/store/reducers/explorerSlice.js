@@ -36,6 +36,7 @@ const explorerSlice = createSlice({
     setLoadingBountyContent(state, { payload }) {
       state.loadingBountyContent = payload
     },
+
   }
 })
 

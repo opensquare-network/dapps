@@ -7,6 +7,8 @@ import accountReducer from './accountSlice'
 import balanceReducer from './balanceSlice'
 import toastReducer from './toastSlice'
 import profileReducer from './profileSlice'
+import reputationReducer from './reputationSlice'
+import miningPowerReducer from './miningPowerSlice'
 
 export default combineReducers({
   test: testReducer,
@@ -16,5 +18,7 @@ export default combineReducers({
   account: accountReducer,
   balance: balanceReducer,
   toast: toastReducer,
-  profile: profileReducer
+  profile: profileReducer,
+  reputation: reputationReducer,
+  miningPower: miningPowerReducer,
 })

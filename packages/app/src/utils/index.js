@@ -31,3 +31,32 @@ export function makeCancelable(promise) {
     }
   }
 }
+
+export function isHex(str) {
+  return (str + '').startsWith('0x')
+}
+
+export function shortHash(hash = '', length = 5) {
+  if (!isHex(hash)) {
+    return hash
+  }
+
+  const nakedHash = remove0x(hash)
+  return `0x${nakedHash.slice(0, length)}...${nakedHash.slice(nakedHash.length - length)}`
+}
+
+export function remove0x(str) {
+  if (!isHex(str)) {
+    return str
+  }
+
+  return str.slice(2)
+}
+
+export function shortStr(str = '', length = 5) {
+  if (str.length <= 2 * length) {
+    return str
+  }
+
+  return `${str.slice(0, length)}...${str.slice(str.length - length)}`
+}

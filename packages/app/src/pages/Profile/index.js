@@ -9,6 +9,8 @@ import { toPrecision } from "../../utils";
 import Tabs from "@pages/Profile/Tabs";
 import Avatar from "@pages/Profile/Avatar";
 import Account from "@pages/Profile/Account";
+import Reputation from "@pages/Profile/Reputation";
+import MiningPower from "@pages/Profile/MiningPower";
 
 const Wrapper = styled.div`
   padding-bottom: 30px;
@@ -22,12 +24,12 @@ export const ProfileBanner = styled(Banner)`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
+
     @media screen and (min-width: 1140px) {
       width: 1128px;
       margin: 0 auto;
     }
-    
+
     @media screen and (max-width: 1140px) {
       width: 100%;
     }
@@ -39,9 +41,29 @@ const Left = styled.div`
   align-items: center;
 `
 
+const Right = styled.div`
+  display: flex;
+  align-items: center;
+
+  li {
+
+    &:not(:first-of-type) {
+      margin-left: 30px !important;
+    }
+
+    & > div {
+      font-weight: bold;
+      font-size: 16px;
+      text-align: right;
+
+    }
+
+  }
+`
+
 const Info = styled.section`
   margin-left: 24px;
-  
+
   & > h3 {
     display: flex;
     margin: 0;
@@ -49,22 +71,21 @@ const Info = styled.section`
     font-size: 18px;
     line-height: 32px;
     color: #FFFFFF;
-    
   }
-  
+
   ol {
     display: flex;
-    
+
     li {
       font-size: 14px;
       line-height: 24px;
       color: rgba(255, 255, 255, 0.32);
       font-weight: normal;
-      
+
       &:not(:first-of-type) {
         margin-left: 20px;
       }
-      
+
       span {
         color: rgba(255, 255, 255, 0.72);
         margin-left: 5px;
@@ -106,6 +127,25 @@ export default function Profile() {
               </ol>
             </Info>
           </Left>
+          <Right>
+            <Info>
+              <ol>
+                <li>
+                  <div>
+                    <Reputation />
+                  </div>
+                  <label>Reputation Score</label>
+                </li>
+                <li>
+                  <div>
+                    <MiningPower />
+                  </div>
+                  <label>Mining Power</label>
+                </li>
+              </ol>
+            </Info>
+
+          </Right>
         </section>
       </ProfileBanner>
       <Tabs />

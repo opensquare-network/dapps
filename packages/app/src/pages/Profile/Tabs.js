@@ -3,6 +3,9 @@ import React from "react";
 import Options from "@components/Options";
 import { useDispatch, useSelector } from "react-redux";
 import { profileTabs, profileTabSelector, setProfileTab } from "@store/reducers/profileSlice";
+import OngoingBounties from "./OngoingBounties";
+import ApplyingBounties from "./ApplyingBounties";
+import BehaviorList from "./BehaviorList";
 
 export default function Tabs() {
   const profileTab = useSelector(profileTabSelector)
@@ -25,6 +28,9 @@ export default function Tabs() {
           })
         }
       </Options>
+      {profileTab === 'Ongoing Bounties' && <OngoingBounties />}
+      {profileTab === 'Applying Bounties' && <ApplyingBounties />}
+      {profileTab === 'Behavior List' && <BehaviorList />}
     </Container>
   )
 }
