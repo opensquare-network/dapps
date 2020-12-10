@@ -6,11 +6,11 @@ function HexText({ className, value }) {
   }
 
   if (value.length === 0) {
-    return <div />
+    return <span />
   }
 
   return (
-    <div className={className}>{decodeURIComponent('%'+value.match(/.{1,2}/g).join('%'))}</div>
+    <span className={className}>{decodeURIComponent('%'+value.match(/.{1,2}/g).join('%'))}</span>
   )
 }
 

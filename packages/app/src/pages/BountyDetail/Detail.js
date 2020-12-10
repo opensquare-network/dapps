@@ -6,6 +6,12 @@ import HexText from "@components/HexText";
 import Avatar from "@components/Avatar";
 import { toPrecision } from "../../utils";
 import { osnPrecision } from "../../utils/constants";
+import HuntButton from "./HuntButton";
+import AssignButton from "./AssignButton";
+import SubmitButton from "./SubmitButton";
+import ResolveButton from "./ResolveButton";
+import RemarkFunderButton from "./RemarkFunderButton";
+
 
 const Wrapper = styled.div`
 
@@ -140,7 +146,11 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
           <Icon name="github" />
           Via on Github
         </Button>
-        <Button className="colored-button">Express Interest</Button>
+        <HuntButton />
+        <AssignButton />
+        <SubmitButton />
+        <ResolveButton />
+        <RemarkFunderButton />
       </ButtonWrapper>
     </Wrapper>
   )
