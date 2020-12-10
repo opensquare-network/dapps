@@ -60,7 +60,8 @@ export default function Account() {
       }
 
       <Icon name="sign-out" title="Sign Out" onClick={() => {
-        dispatch(setAccount(null))
+        dispatch(setAccount(null));
+        localStorage.removeItem("currentAccount");
       }} />
     </Wrapper>
   )

@@ -79,11 +79,11 @@ export default function() {
 
   const signInWithAddress = async account => {
     const injector = await web3FromAddress(account.extensionAddress)
-
     const api = await getApi()
     api.setSigner(injector.signer)
     dispatch(setAccount(account))
     dispatch(setAccountsModalOpen(false))
+    localStorage.setItem("currentAccount", JSON.stringify(account));
   }
 
   return (
