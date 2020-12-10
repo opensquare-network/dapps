@@ -16,6 +16,11 @@ const Header = styled.div`
   align-items: center;
   gap: 24px;
 
+  .avatar-content {
+    min-width: 56px;
+    flex-shrink: 0 0 56px;
+  }
+
   .title-content {
     flex-grow: 1;
   }
@@ -30,6 +35,7 @@ const TitleWrapper = styled.div`
     font-size: 16px;
     font-weight: bold;
     line-height: 32px;
+    word-break: break-word;
   }
 
   & > .payment {
@@ -105,7 +111,7 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
   return (
     <Wrapper>
       <Header>
-        <Avatar src={avatar} />
+        <Avatar className="avatar-content" src={avatar} />
         <div className="title-content">
           <TitleWrapper>
             <HexText className="title" value={title || ""} />
