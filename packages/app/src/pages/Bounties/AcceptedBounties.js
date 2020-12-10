@@ -19,6 +19,8 @@ export default function AcceptedBounties() {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    // for test qiyisi
+    // dispatch(fetchBounties({}, 0, 20))
     dispatch(fetchBounties({ state: 'Accepted' }, 0, 20))
   }, [dispatch, tablePage, tablePageSize])
 
