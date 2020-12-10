@@ -29,7 +29,7 @@ const Header = styled.div`
 const TitleWrapper = styled.div`
   min-height: 32px;
   display: flex;
-  gap: 20px;
+  gap: 24px;
 
   & > .title {
     font-size: 16px;
@@ -51,7 +51,7 @@ const TitleWrapper = styled.div`
 const LabelWrapper = styled.div`
   display: flex;
   gap: 12px;
-  margin-top: 6px;
+  margin-top: 4px;
 
   & > div {
     background: rgba(77, 113, 255, 0.1);
