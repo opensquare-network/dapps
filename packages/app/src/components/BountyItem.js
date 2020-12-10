@@ -108,12 +108,12 @@ const InfoWrapper = styled.div`
   }
 `
 
-export default function ({ bounty: item, labels }) {
+export default function ({ bounty: item, labels, src }) {
   labels = ['N/A', 'N/A'];
   return (
     <BountyItem key={item.bountyId}>
       <div className="avatar-content">
-        <Avatar />
+        <Avatar src={src} />
       </div>
       <div className="title-content">
         <TitleWrapper>
