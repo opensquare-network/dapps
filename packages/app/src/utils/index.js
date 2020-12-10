@@ -60,3 +60,7 @@ export function shortStr(str = '', length = 5) {
 
   return `${str.slice(0, length)}...${str.slice(str.length - length)}`
 }
+
+export function elemIn(elem, arr) {
+  return arr.indexOf(elem) >= 0
+}

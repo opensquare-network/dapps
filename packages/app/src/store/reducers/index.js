@@ -9,6 +9,7 @@ import toastReducer from './toastSlice'
 import profileReducer from './profileSlice'
 import reputationReducer from './reputationSlice'
 import miningPowerReducer from './miningPowerSlice'
+import bountyReducer from './bountySlice'
 
 export default combineReducers({
   test: testReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
   profile: profileReducer,
   reputation: reputationReducer,
   miningPower: miningPowerReducer,
+  bounty: bountyReducer,
 })

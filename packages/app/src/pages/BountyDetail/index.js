@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBounty, bountySelector, bountyContentSelector, fetchBountyContent } from "../../store/reducers/explorerSlice";
+import { fetchBounty, bountySelector, bountyContentSelector, fetchBountyContent } from "../../store/reducers/bountySlice";
 import styled from "styled-components";
 import { useHistory, useParams } from 'react-router'
 import Container from "@components/Container";
