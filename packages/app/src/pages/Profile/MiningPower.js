@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { nowAddressSelector } from "@store/reducers/accountSlice";
-import { sessionMiningPowerSelector, fetchSessionMiningPower } from "@store/reducers/miningPowerSlice";
-import styled from "styled-components";
+import { fetchSessionMiningPower, sessionMiningPowerSelector } from "@store/reducers/miningPowerSlice";
 
 export default function MiningPower() {
   const address = useSelector(nowAddressSelector)

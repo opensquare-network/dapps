@@ -5,6 +5,7 @@ export default function BlockExplorerLink({ href, children}) {
     <a
       href={new URL(href, process.env.REACT_APP_EXPLORER_SITE).href}
       target="_blank"
+      rel="noopener noreferrer"
     >
       {children}
     </a>

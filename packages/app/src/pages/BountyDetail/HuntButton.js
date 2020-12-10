@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { Button, Icon } from "semantic-ui-react";
+import { Button, Modal } from "semantic-ui-react";
 
 import { getApi } from "@services/api";
 import { nowAddressSelector } from "@store/reducers/accountSlice";
-import { Modal } from "semantic-ui-react";
 import { addFlashToast, toastType } from "@store/reducers/toastSlice";
 import { ss58FormatSelector } from "@store/reducers/chainSlice";
-import { decodeAddress, encodeAddress } from "@polkadot/keyring";
-import { fetchBounty, bountySelector } from "../../store/reducers/bountySlice";
+import { encodeAddress } from "@polkadot/keyring";
+import { bountySelector, fetchBounty } from "../../store/reducers/bountySlice";
 
 export default function () {
   const nowAddress = useSelector(nowAddressSelector)

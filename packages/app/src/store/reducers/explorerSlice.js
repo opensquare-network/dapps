@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 import api from "@services/explorerApi";
-import contentApi from "@services/contentApi";
 
 const explorerSlice = createSlice({
   name: 'explorer',
