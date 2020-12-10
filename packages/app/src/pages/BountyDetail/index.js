@@ -36,8 +36,6 @@ export default function() {
   const bounty = useSelector(bountySelector)
   const content = useSelector(bountyContentSelector)
 
-  console.log({bounty, content})
-
   useEffect(() => {
     if (bountyId) {
       dispatch(fetchBounty(bountyId))

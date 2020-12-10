@@ -4,8 +4,9 @@ import { fetchApplyingBounties, applyingBountiesSelector } from "../../store/red
 import Empty from "@components/Empty";
 import styled from "styled-components";
 import { nowAddressSelector } from "@store/reducers/accountSlice";
-import { Pagination } from 'antd';
 import BountyList from "../../components/BountyList";
+
+import Pagination from "@components/Pagination";
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,16 +37,30 @@ export default function ApplyingBounites() {
       pageSize: tablePageSize,
       total: 0
     }
+  const tablePageTotal = Math.ceil(total / pageSize);
   if (bounties?.length > 0) {
     return (
       <div style={{marginTop: '20px'}}>
         <BountyList bounties={bounties} />
-        <Pagination
+        {/* <Pagination
           defaultCurrent={page}
           pageSize={pageSize}
           total={total}
           onChange={(page, pageSize) => {
             setTablePage(page)
+            setTablePageSize(pageSize)
+          }}
+        /> */}
+        <Pagination
+          boundaryRange={0}
+          defaultActivePage={page}
+          ellipsisItem={null}
+          firstItem={null}
+          lastItem={null}
+          siblingRange={1}
+          totalPages={tablePageTotal}
+          onPageChange={(_, data) => {
+            setTablePage(data.activePage);
             setTablePageSize(pageSize)
           }}
         />

@@ -55,17 +55,19 @@ const TitleWrapper = styled.div`
 `
 
 const LabelWrapper = styled.div`
-  display: flex;
-  gap: 12px;
-  margin-top: 4px;
-
   & > div {
+    display: inline-block;
     background: rgba(77, 113, 255, 0.1);
     border-radius: 4px;
     color: #4D71FF;
     font-size: 12px;
     line-height: 20px;
     padding: 2px 8px;
+    margin-top: 4px;
+    margin-right: 12px;
+    :last-child {
+      margin-right: 0;
+    }
   }
 `
 
@@ -100,16 +102,6 @@ const ButtonWrapper = styled.div`
 
   & > .button {
     margin-right: 0px;
-  }
-
-  .colored-button {
-    color: white;
-    background: #04D2C5;
-
-    &:hover, &:focus {
-      color: white;
-      background: #04D2C5;
-    }
   }
 `
 

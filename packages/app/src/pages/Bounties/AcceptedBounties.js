@@ -4,8 +4,9 @@ import { fetchBounties, bountiesSelector } from "../../store/reducers/explorerSl
 import EmptyBounty from "@pages/Bounties/EmptyBounty";
 import styled from "styled-components";
 import Container from "@components/Container";
-import { Pagination } from 'antd';
 import BountyList from "../../components/BountyList";
+
+import Pagination from "@components/Pagination";
 
 const Wrapper = styled(Container)`
   & > main {
@@ -25,6 +26,8 @@ export default function AcceptedBounties() {
   }, [dispatch, tablePage, tablePageSize])
 
   const { items: bounties, page, pageSize, total } = useSelector(bountiesSelector)
+  const tablePageTotal = Math.ceil(total / pageSize);
+
   if (bounties.length <= 0) {
     return <EmptyBounty />
   }
@@ -33,14 +36,18 @@ export default function AcceptedBounties() {
     <Wrapper>
       <BountyList bounties={bounties} />
       <Pagination
-        defaultCurrent={page}
-        pageSize={pageSize}
-        total={total}
-        onChange={(page, pageSize) => {
-          setTablePage(page)
+        boundaryRange={0}
+        defaultActivePage={page}
+        ellipsisItem={null}
+        firstItem={null}
+        lastItem={null}
+        siblingRange={1}
+        totalPages={tablePageTotal}
+        onPageChange={(_, data) => {
+          setTablePage(data.activePage);
           setTablePageSize(pageSize)
         }}
-        />
+      />
     </Wrapper>
   )
 }
