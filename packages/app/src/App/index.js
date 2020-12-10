@@ -11,6 +11,8 @@ import Profile from "@pages/Profile";
 import ToastContainer from "./ToastContainer";
 import BountyDetail from '@pages/BountyDetail';
 
+import AutoSignIn from "@components/AutoSignIn";
+
 function App() {
   const dispatch = useDispatch()
 
@@ -20,6 +22,7 @@ function App() {
 
   return (
     <Router>
+      <AutoSignIn />
       <Header />
       <ToastContainer />
       <Wrapper>
