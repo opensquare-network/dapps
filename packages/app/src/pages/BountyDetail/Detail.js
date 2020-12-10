@@ -27,6 +27,11 @@ const Header = styled.div`
   align-items: center;
   gap: 24px;
 
+  .avatar-content {
+    min-width: 56px;
+    flex-shrink: 0 0 56px;
+  }
+
   .title-content {
     flex-grow: 1;
   }
@@ -35,12 +40,13 @@ const Header = styled.div`
 const TitleWrapper = styled.div`
   min-height: 32px;
   display: flex;
-  gap: 20px;
+  gap: 24px;
 
   & > .title {
     font-size: 16px;
     font-weight: bold;
     line-height: 32px;
+    word-break: break-word;
   }
 
   & > .payment {
@@ -56,7 +62,7 @@ const TitleWrapper = styled.div`
 const LabelWrapper = styled.div`
   display: flex;
   gap: 12px;
-  margin-top: 6px;
+  margin-top: 4px;
 
   & > div {
     background: rgba(77, 113, 255, 0.1);
@@ -197,7 +203,7 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
     <>
       <Wrapper>
         <Header>
-          <Avatar src={avatar} />
+          <Avatar className="avatar-content" src={avatar} />
           <div className="title-content">
             <TitleWrapper>
               <HexText className="title" value={title || ""} />

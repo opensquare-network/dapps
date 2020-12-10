@@ -11,9 +11,9 @@ const Wrapper = styled.div`
   }
 `
 
-export default function Avatar({ src, width, height }) {
+export default function Avatar({ src, width, height, className }) {
   return (
-    <Wrapper width={width} height={height}>
+    <Wrapper width={width} height={height} className={className}>
       <Image src={src || defaultAvatar} alt="avatar" />
     </Wrapper>
   )
