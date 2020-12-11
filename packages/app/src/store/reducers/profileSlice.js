@@ -48,6 +48,11 @@ const profileSlice = createSlice({
       total: 0
     },
     loadingBehaviors: false,
+    countBehaviors: 0,
+    countOngoingBounties: 0,
+    countApplyingBounties: 0,
+    countFundBounties: 0,
+    countPendingApproveBounties: 0,
   },
   reducers: {
     setTab(state, { payload }) {
@@ -83,6 +88,21 @@ const profileSlice = createSlice({
     setLoadingBehaviors(state, { payload }) {
       state.loadingBehaviors = payload
     },
+    setCountBehaviors(state, { payload }) {
+      state.countBehaviors = payload
+    },
+    setCountOngoingBounties(state, { payload }) {
+      state.countOngoingBounties = payload
+    },
+    setCountApplyingBounties(state, { payload }) {
+      state.countApplyingBounties = payload
+    },
+    setCountFundBounties(state, { payload }) {
+      state.countFundBounties = payload
+    },
+    setCountPendingApproveBounties(state, { payload }) {
+      state.countPendingApproveBounties = payload
+    },
   }
 })
 
@@ -98,6 +118,11 @@ export const {
   setLoadingOngoingBounties,
   setBehaviors,
   setLoadingBehaviors,
+  setCountBehaviors,
+  setCountOngoingBounties,
+  setCountApplyingBounties,
+  setCountFundBounties,
+  setCountPendingApproveBounties,
 } = profileSlice.actions
 
 export const fetchFundBounties = (address, page, pageSize) => async dispatch => {
@@ -116,6 +141,18 @@ export const fetchFundBounties = (address, page, pageSize) => async dispatch => 
     dispatch(setFundBounties(result))
   } finally {
     dispatch(setLoadingFundBounties(false))
+  }
+}
+
+export const fetchFundBountiesCount = (address) => async dispatch => {
+  if (!address) {
+    dispatch(setCountFundBounties(0))
+    return
+  }
+  try {
+    const { result } = await api.fetch(`/accounts/${address}/examinedbountiescount`)
+    dispatch(setCountFundBounties(result))
+  } finally {
   }
 }
 
@@ -138,6 +175,18 @@ export const fetchPendingApproveBounties = (address, page, pageSize) => async di
   }
 }
 
+export const fetchPendingApproveBountiesCount = (address) => async dispatch => {
+  if (!address) {
+    dispatch(setCountPendingApproveBounties(0))
+    return
+  }
+  try {
+    const { result } = await api.fetch(`/accounts/${address}/pendingapprovecount`)
+    dispatch(setCountPendingApproveBounties(result))
+  } finally {
+  }
+}
+
 export const fetchApplyingBounties = (address, page, pageSize) => async dispatch => {
   if (!address) {
     dispatch(setApplyingBounties({
@@ -154,6 +203,18 @@ export const fetchApplyingBounties = (address, page, pageSize) => async dispatch
     dispatch(setApplyingBounties(result))
   } finally {
     dispatch(setLoadingApplyingBounties(false))
+  }
+}
+
+export const fetchApplyingBountiesCount = (address) => async dispatch => {
+  if (!address) {
+    dispatch(setCountApplyingBounties(0))
+    return
+  }
+  try {
+    const { result } = await api.fetch(`/accounts/${address}/applyingbountiescount`)
+    dispatch(setCountApplyingBounties(result))
+  } finally {
   }
 }
 
@@ -176,6 +237,18 @@ export const fetchOngoingBounties = (address, page, pageSize) => async dispatch 
   }
 }
 
+export const fetchOngoingBountiesCount = (address) => async dispatch => {
+  if (!address) {
+    dispatch(setCountOngoingBounties(0))
+    return
+  }
+  try {
+    const { result } = await api.fetch(`/accounts/${address}/assignedbountiescount`)
+    dispatch(setCountOngoingBounties(result))
+  } finally {
+  }
+}
+
 export const fetchBehaviors = (address, page, pageSize) => async dispatch => {
   if (!address) {
     dispatch(setBehaviors({
@@ -195,6 +268,18 @@ export const fetchBehaviors = (address, page, pageSize) => async dispatch => {
   }
 }
 
+export const fetchBehaviorsCount = (address) => async dispatch => {
+  if (!address) {
+    dispatch(setCountBehaviors(0))
+    return
+  }
+  try {
+    const { result } = await api.fetch(`/accounts/${address}/behaviorscount`)
+    dispatch(setCountBehaviors(result))
+  } finally {
+  }
+}
+
 export const profileTabSelector = state => state.profile.tab
 export const fundBountiesSelector = state => state.profile.fundBounties
 export const fundBountiesLoadingSelector = state => state.profile.loadingFundBounties
@@ -206,5 +291,11 @@ export const ongoingBountiesSelector = state => state.profile.ongoingBounties
 export const ongoingBountiesLoadingSelector = state => state.profile.loadingOngoingBounties
 export const behaviorsSelector = state => state.profile.behaviors
 export const behaviorsLoadingSelector = state => state.profile.loadingBehaviors
+
+export const fundBountiesCountSelector = state => state.profile.countFundBounties
+export const pendingApproveBountiesCountSelector = state => state.profile.countPendingApproveBounties
+export const applyingBountiesCountSelector = state => state.profile.countApplyingBounties
+export const ongoingBountiesCountSelector = state => state.profile.countOngoingBounties
+export const behaviorsCountSelector = state => state.profile.countBehaviors
 
 export default profileSlice.reducer

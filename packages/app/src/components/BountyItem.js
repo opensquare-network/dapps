@@ -132,11 +132,20 @@ export default function ({ bounty: item, labels, src, councilor = false }) {
         <InfoWrapper>
           <span className="variable">{item.hunters?.hunters?.length || 0}</span>
           <span className="static">Applicants</span>
-          <span className="divider" />
+          {/* <span className="divider" />
           <span className="variable">
             <DateShow style={{display: "inline-block"}} value={item.indexer.blockTime} />
           </span>
-          <span className="static">Created</span>
+          <span className="static">Created</span> */}
+          {
+            item?.state && <>
+              <span className="divider" />
+              <span className="variable">
+                <DateShow style={{display: "inline-block"}} value={item?.state.indexer.blockTime} />
+              </span>
+              <span className="static">{item?.state.state}</span>
+            </>
+          }
         </InfoWrapper>
       </div>
 
