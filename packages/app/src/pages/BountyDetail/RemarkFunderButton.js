@@ -53,7 +53,7 @@ export default function () {
   return (
     <>
       { (isResolved && isAssignee) &&
-          <Button className="colored-button" onClick={() => {
+          <Button primary onClick={() => {
             setShowRemarkFunderModel(true)
           }} disabled={false}>
             Remark Funder

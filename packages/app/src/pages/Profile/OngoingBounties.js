@@ -56,7 +56,7 @@ export default function OngoingBounites() {
         /> */}
         <Pagination
           boundaryRange={0}
-          defaultActivePage={page}
+          defaultActivePage={page || 1}
           ellipsisItem={null}
           firstItem={null}
           lastItem={null}

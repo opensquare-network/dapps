@@ -184,8 +184,8 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
         </Button>
         {
           isApplying && <>
-            <Button className="colored-button" onClick={() => examineBounty(true)}>Accept</Button>
-            <Button className="colored-button" onClick={() => examineBounty(false)}>Reject</Button>
+            <Button primary onClick={() => examineBounty(true)}>Accept</Button>
+            <Button primary onClick={() => examineBounty(false)}>Reject</Button>
             </>
         }
       </ButtonWrapper>

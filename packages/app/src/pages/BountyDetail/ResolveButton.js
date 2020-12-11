@@ -54,7 +54,7 @@ export default function () {
   return (
     <>
       { ((isSubmitted || isResolved) && isFunder) &&
-          <Button className="colored-button" onClick={() => {
+          <Button primary onClick={() => {
             setShowResolveAndRemarkModel(true)
           }} disabled={isResolved}>
             { isResolved ? 'Resolved' : 'Resolve and Remark' }

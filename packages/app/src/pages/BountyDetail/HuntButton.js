@@ -60,7 +60,7 @@ export default function () {
   return (
     <>
       { (isAccepted && !isAssignee && !isFunder) &&
-          <Button className="colored-button" onClick={huntBounty} disabled={isHunter}>
+          <Button primary onClick={huntBounty} disabled={isHunter}>
             { isHunter ? 'Already Hunted' : 'Express Interest' }
           </Button>
       }

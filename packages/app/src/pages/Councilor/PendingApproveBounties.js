@@ -51,7 +51,7 @@ export default function PendingApproveBounties() {
       <BountyList bounties={bounties} councilor={true} />
       <Pagination
         boundaryRange={0}
-        defaultActivePage={page}
+        defaultActivePage={page || 1}
         ellipsisItem={null}
         firstItem={null}
         lastItem={null}
