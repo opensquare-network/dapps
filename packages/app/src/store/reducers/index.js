@@ -10,6 +10,7 @@ import profileReducer from './profileSlice'
 import reputationReducer from './reputationSlice'
 import miningPowerReducer from './miningPowerSlice'
 import bountyReducer from './bountySlice'
+import councilorReducer from './councilorSlice'
 
 export default combineReducers({
   test: testReducer,
@@ -23,4 +24,5 @@ export default combineReducers({
   reputation: reputationReducer,
   miningPower: miningPowerReducer,
   bounty: bountyReducer,
+  councilor: councilorReducer,
 })

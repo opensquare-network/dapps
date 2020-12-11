@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 export default function OngoingBounites() {
   const address = useSelector(nowAddressSelector)
   const [tablePage, setTablePage] = useState(1)
-  const [tablePageSize, setTablePageSize] = useState(20)
+  const [tablePageSize, setTablePageSize] = useState(10)
   const dispatch = useDispatch()
 
   console.log(address)

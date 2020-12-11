@@ -110,7 +110,7 @@ const InfoWrapper = styled.div`
   }
 `
 
-export default function ({ bounty: item, labels, src }) {
+export default function ({ bounty: item, labels, src, councilor = false }) {
   labels = ['N/A', 'N/A'];
   return (
     <BountyItem key={item.bountyId}>
@@ -119,7 +119,7 @@ export default function ({ bounty: item, labels, src }) {
       </div>
       <div className="title-content">
         <TitleWrapper>
-          <NavLink className="title" to={`/bounty/${item.bountyId}`}>
+          <NavLink className="title" to={`${ councilor ? '/councilor' : '' }/bounty/${item.bountyId}`}>
             <HexText value={item.meta.V1.title} />
           </NavLink>
           <div className="payment">
@@ -139,7 +139,7 @@ export default function ({ bounty: item, labels, src }) {
           <span className="static">Created</span>
         </InfoWrapper>
       </div>
-      
+
     </BountyItem>
   )
 }

@@ -10,6 +10,8 @@ import { fetchProperties } from "@store/reducers/chainSlice";
 import Profile from "@pages/Profile";
 import ToastContainer from "./ToastContainer";
 import BountyDetail from '@pages/BountyDetail';
+import Councilor from '@pages/Councilor';
+import CouncilorBountyDetail from '@pages/CouncilorBountyDetail';
 
 import AutoSignIn from "@components/AutoSignIn";
 
@@ -31,6 +33,8 @@ function App() {
           <Route exact path="/fund" component={NewBounty} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/bounty/:bountyId" component={BountyDetail} />
+          <Route exact path="/councilor" component={Councilor} />
+          <Route exact path="/councilor/bounty/:bountyId" component={CouncilorBountyDetail} />
           <Redirect to="/" />
         </Switch>
       </Wrapper>
