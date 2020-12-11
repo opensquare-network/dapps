@@ -56,7 +56,7 @@ export default function () {
   return (
     <>
       { ((isAccepted || isAssigned) && isFunder) &&
-          <Button className="colored-button" onClick={() => {
+          <Button primary onClick={() => {
             setShowAssignHunterModel(true)
           }} disabled={isAssigned}>
             { isAssigned ? 'Assigned' : 'Assign to Hunter' }

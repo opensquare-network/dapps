@@ -51,7 +51,7 @@ export default function () {
   return (
     <>
       { ((isAssigned || isSubmitted) && isAssignee) &&
-          <Button className="colored-button" onClick={submitBounty} disabled={isSubmitted}>
+          <Button primary onClick={submitBounty} disabled={isSubmitted}>
             { isSubmitted ? 'Submitted': 'Submit' }
           </Button>
       }
