@@ -52,12 +52,9 @@ export default function BehaviorList() {
   const [tablePageSize, setTablePageSize] = useState(20)
   const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   dispatch(fetchBehaviors(address, tablePage - 1, tablePageSize))
-  // }, [dispatch, address, tablePage, tablePageSize])
   useEffect(() => {
-      dispatch(fetchBehaviors(address))
-    }, [dispatch, address])
+    dispatch(fetchBehaviors(address, tablePage - 1, tablePageSize))
+  }, [dispatch, address, tablePage, tablePageSize])
 
   const result = useSelector(behaviorsSelector)
   const loading = useSelector(behaviorsLoadingSelector)
@@ -108,7 +105,7 @@ export default function BehaviorList() {
           pagination={false}
           size="small"
           columns={columns}
-          dataSource={dataSource.slice((tablePage - 1) * pageSize, tablePage * pageSize)}
+          dataSource={dataSource}
         />
         <Pagination
           boundaryRange={0}
