@@ -12,6 +12,9 @@ const accountSlice = createSlice({
     },
     setAccountsModalOpen(state, { payload }) {
       state.accountsModalOpen = payload
+    },
+    removeAccount(state) {
+      state.account = null
     }
   }
 })
@@ -24,6 +27,7 @@ export const isLoginSelector = createSelector(accountSelector, account => {
 export const nowAddressSelector = state => state.account.account?.address
 export const {
   setAccount,
-  setAccountsModalOpen
+  setAccountsModalOpen,
+  removeAccount,
 } = accountSlice.actions
 export default accountSlice.reducer

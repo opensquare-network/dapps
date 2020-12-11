@@ -83,7 +83,6 @@ export default function() {
     api.setSigner(injector.signer)
     dispatch(setAccount(account))
     dispatch(setAccountsModalOpen(false))
-    localStorage.setItem("currentAccount", JSON.stringify(account));
   }
 
   return (
