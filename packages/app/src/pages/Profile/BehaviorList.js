@@ -13,6 +13,8 @@ import ExtrinsicAction from "@components/ExtrinsicAction";
 import Success from "@components/Success";
 import Fail from "@components/Fail";
 
+import Pagination from "@components/Pagination";
+
 export const columns = [
   { title: 'Hash', dataIndex: 'hash' },
   { title: 'Block Time', dataIndex: 'timestamp' },
@@ -30,6 +32,18 @@ const Wrapper = styled.div`
   & > span {
     margin-top: 10px;
   }
+
+  .ant-pagination {
+    display: none !important;
+  }
+
+  .ant-table-pagination {
+    display: none !important;
+  }
+
+  .ant-table-pagination-right {
+    display: none !important;
+  }
 `
 
 export default function BehaviorList() {
@@ -38,9 +52,12 @@ export default function BehaviorList() {
   const [tablePageSize, setTablePageSize] = useState(20)
   const dispatch = useDispatch()
 
+  // useEffect(() => {
+  //   dispatch(fetchBehaviors(address, tablePage - 1, tablePageSize))
+  // }, [dispatch, address, tablePage, tablePageSize])
   useEffect(() => {
-    dispatch(fetchBehaviors(address, tablePage - 1, tablePageSize))
-  }, [dispatch, address, tablePage, tablePageSize])
+      dispatch(fetchBehaviors(address))
+    }, [dispatch, address])
 
   const result = useSelector(behaviorsSelector)
   const loading = useSelector(behaviorsLoadingSelector)
@@ -51,6 +68,7 @@ export default function BehaviorList() {
       pageSize: tablePageSize,
       total: 0
     }
+  const tablePageTotal = Math.ceil(total / pageSize);
   if (extrinsics?.length > 0) {
     const dataSource = extrinsics.map(extrinsic => {
       const { hash, indexer, section, signer, name, args, isSuccess } = extrinsic
@@ -72,10 +90,10 @@ export default function BehaviorList() {
       <div style={{marginTop: '20px'}}>
         <Table
           loading={loading}
-          onChange={({ current, pageSize: size }) => {
-            setTablePage(current)
-            setTablePageSize(size)
-          }}
+          // onChange={({ current, pageSize: size }) => {
+          //   setTablePage(current)
+          //   setTablePageSize(size)
+          // }}
           expandedRowRender={data => {
             return (
               <div>
@@ -86,10 +104,24 @@ export default function BehaviorList() {
               </div>
             )
           }}
-          pagination={{ current: page + 1, pageSize, total }}
+          // pagination={{ current: page + 1, pageSize, total }}
+          pagination={false}
           size="small"
           columns={columns}
-          dataSource={dataSource}
+          dataSource={dataSource.slice((tablePage - 1) * pageSize, tablePage * pageSize)}
+        />
+        <Pagination
+          boundaryRange={0}
+          defaultActivePage={page || 1}
+          ellipsisItem={null}
+          firstItem={null}
+          lastItem={null}
+          siblingRange={1}
+          totalPages={tablePageTotal}
+          onPageChange={(_, data) => {
+            setTablePage(data.activePage);
+            setTablePageSize(pageSize)
+          }}
         />
       </div>
     )
