@@ -1,5 +1,5 @@
 import { Button } from "semantic-ui-react";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   newBountyContentSelector,
@@ -10,16 +10,15 @@ import {
   setNewBountyDetailError,
   setNewBountyTitleError
 } from "@store/reducers/newBountySlice";
-import { getApi } from "@services/api";
 import { newBounty } from "@pages/NewBounty/BountyAction/utils";
 import testKeyring from "@polkadot/keyring/testing"
 import { osnPrecisionSelector, ss58FormatSelector } from "@store/reducers/chainSlice";
-import { encodeAddress } from "@polkadot/keyring";
 import BigNumber from "bignumber.js";
 import { postContent } from "@services/contentServer";
 import { accountSelector, isLoginSelector } from "@store/reducers/accountSlice";
 import ErrorLine from "@components/ErrorLine";
-import { addFlashToast, toastType } from "@store/reducers/toastSlice";
+import createBounty from "@pages/NewBounty/BountyAction/createBounty";
+import { useHistory } from "react-router";
 
 export default function Action() {
   const token = useSelector(newBountyTokenSelector)
@@ -30,13 +29,18 @@ export default function Action() {
   const isLogin = useSelector(isLoginSelector)
   const account = useSelector(accountSelector)
 
+  const [creating, setCreating] = useState(false)
+
   const ss58Format = useSelector(ss58FormatSelector)
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const create = async () => {
+    setCreating(true)
+
     let hasError = false
     if (!title) {
-      dispatch(setNewBountyTitleError('Title can not be empyt'))
+      dispatch(setNewBountyTitleError('Title can not be empty'))
       hasError = true
     }
 
@@ -51,6 +55,7 @@ export default function Action() {
     }
 
     if (hasError) {
+      setCreating(false)
       return
     }
 
@@ -58,45 +63,28 @@ export default function Action() {
     const keyring = testKeyring()
     keyring.setSS58Format(ss58Format)
 
-    const api = await getApi()
-    const realAmount = new BigNumber(amount).multipliedBy(Math.pow(10, precision)).toNumber()
-    const bounty = newBounty(account.address, token, realAmount, title, description)
+    let bountyId = null
+    try {
+      const realAmount = new BigNumber(amount).multipliedBy(Math.pow(10, precision)).toNumber()
+      const bounty = newBounty(account.address, token, realAmount, title, description)
 
-    const unsub = await api.tx.osBounties.createBounty(bounty)
-      .signAndSend(account.extensionAddress, async ({ events = [], status }) => {
-        console.log('status', status)
-        if (status.isInBlock) {
-          dispatch(addFlashToast(toastType.INFO, 'Extrinsic inBlock'))
-        }
+      bountyId = await createBounty(account, bounty, dispatch, ss58Format)
+    } finally {
+      setCreating(false)
+    }
 
-        for (const item of events) {
-          console.log('events', events)
-          const { event } = item
-          const method = event.method
-          const data = event.data.toJSON()
-
-          if ('ApplyBounty' === method && status.isFinalized) {
-            const [accountId, bountyId] = data
-            console.log(`${encodeAddress(accountId, ss58Format)} created bounty ${bountyId}`)
-            dispatch(addFlashToast(toastType.SUCCESS, 'Bounty created, and please wait for the council review'))
-          }
-        }
-
-        if (status.isFinalized) {
-          unsub()
-        }
-      })
-
-    // TODO: go to explorer page after the creating
+    if (bountyId) {
+      history.push(`/bounty${bountyId}`)
+    }
   }
 
   return (
     <>
       <Button
-        disabled={!isLogin}
+        disabled={!isLogin || creating}
         primary
         onClick={create}>
-        Fund Bounty
+        {creating ? 'Funding' : 'Fund Bounty'}
       </Button>
       {
         !isLogin && <ErrorLine>Please sign in to create bounty</ErrorLine>
