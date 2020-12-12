@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 
 import Card from "@components/Card";
 import DateShow from "@components/DateShow";
-import HexText from "@components/HexText";
 import Balance from "@components/Balance";
 import Avatar from "@components/Avatar";
 
@@ -110,7 +109,7 @@ const InfoWrapper = styled.div`
   }
 `
 
-export default function ({ bounty: item, labels, src, councilor = false }) {
+export default function({ bounty: item, labels, src, councilor = false }) {
   labels = ['N/A', 'N/A'];
   return (
     <BountyItem key={item.bountyId}>
@@ -119,15 +118,15 @@ export default function ({ bounty: item, labels, src, councilor = false }) {
       </div>
       <div className="title-content">
         <TitleWrapper>
-          <NavLink className="title" to={`${ councilor ? '/councilor' : '' }/bounty/${item.bountyId}`}>
-            <HexText value={item.meta.V1.title} />
+          <NavLink className="title" to={`${councilor ? '/councilor' : ''}/bounty/${item.bountyId}`}>
+            <span>{item.meta.V1.title}</span>
           </NavLink>
           <div className="payment">
             <Balance value={item.meta.V1.payment} />
           </div>
         </TitleWrapper>
         <LabelWrapper>
-          { labels && labels.map((item, index) => (<div key={index}>{item}</div>)) }
+          {labels && labels.map((item, index) => (<div key={index}>{item}</div>))}
         </LabelWrapper>
         <InfoWrapper>
           <span className="variable">{item.hunters?.hunters?.length || 0}</span>
@@ -141,7 +140,7 @@ export default function ({ bounty: item, labels, src, councilor = false }) {
             item?.state && <>
               <span className="divider" />
               <span className="variable">
-                <DateShow style={{display: "inline-block"}} value={item?.state.indexer.blockTime} />
+                <DateShow style={{ display: "inline-block" }} value={item?.state.indexer.blockTime} />
               </span>
               <span className="static">{item?.state.state}</span>
             </>

@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Button, Icon } from "semantic-ui-react";
-
-import HexText from "@components/HexText";
 import Avatar from "@components/Avatar";
 import { toPrecision } from "../../utils";
 import { osnPrecision } from "../../utils/constants";
@@ -11,7 +9,6 @@ import AssignButton from "./AssignButton";
 import SubmitButton from "./SubmitButton";
 import ResolveButton from "./ResolveButton";
 import RemarkFunderButton from "./RemarkFunderButton";
-
 
 const Wrapper = styled.div`
 
@@ -112,7 +109,7 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
         <Avatar className="avatar-content" src={avatar} />
         <div className="title-content">
           <TitleWrapper>
-            <HexText className="title" value={title || ""} />
+            <span className="title">{title || ""}</span>
             <div className="payment">{toPrecision(amount, osnPrecision, osnPrecision)} {currency}</div>
           </TitleWrapper>
           <LabelWrapper>

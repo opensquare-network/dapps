@@ -3,17 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import styled from "styled-components";
 import { Button, Icon } from "semantic-ui-react";
-
-import HexText from "@components/HexText";
 import Avatar from "@components/Avatar";
 import { toPrecision } from "../../utils";
-import { Alice } from "../../utils/constants";
-import { osnPrecision } from "../../utils/constants";
+import { Alice, osnPrecision } from "../../utils/constants";
 
 import { getApi } from "@services/api";
 import { addFlashToast, toastType } from "@store/reducers/toastSlice";
 import { bountySelector, fetchBounty } from "../../store/reducers/bountySlice";
-
 
 const Wrapper = styled.div`
 
@@ -156,7 +152,7 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
         <Avatar className="avatar-content" src={avatar} />
         <div className="title-content">
           <TitleWrapper>
-            <HexText className="title" value={title || ""} />
+            <span className="title">{title || ""}</span>
             <div className="payment">{toPrecision(amount, osnPrecision, osnPrecision)} {currency}</div>
           </TitleWrapper>
           <LabelWrapper>
