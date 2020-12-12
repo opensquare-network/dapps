@@ -61,7 +61,7 @@ export default function () {
     <>
       { (isAccepted && !isAssignee && !isFunder) &&
           <Button primary onClick={huntBounty} disabled={isHunter}>
-            { isHunter ? 'Already Hunted' : 'Express Interest' }
+            { isHunter ? 'Already Hunted' : 'Hunt' }
           </Button>
       }
 
