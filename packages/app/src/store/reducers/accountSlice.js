@@ -1,5 +1,7 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit'
 
+const councilorAddr = '2ck7Ffrom1wmewMWUuQQYcw5tgTxiLj3c8foQ1hgc5dL2N3P'
+
 const accountSlice = createSlice({
   name: 'account',
   initialState: {
@@ -29,7 +31,9 @@ export const isLoginSelector = createSelector(accountSelector, account => {
   return !!account
 })
 export const nowAddressSelector = state => state.account.account?.address
-export const isCouncilorSelector = state => state.account.isCouncilor
+export const isCouncilorSelector = createSelector(accountSelector, account => {
+  return account?.address === councilorAddr
+})
 export const {
   setAccount,
   setAccountsModalOpen,

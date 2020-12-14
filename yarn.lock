@@ -1505,15 +1505,6 @@
     "@polkadot/util" "^3.7.1"
     "@polkadot/util-crypto" "^3.7.1"
 
-"@polkadot/keyring@^4.0.1":
-  version "4.0.1"
-  resolved "https://registry.npm.taobao.org/@polkadot/keyring/download/@polkadot/keyring-4.0.1.tgz#07ec9e8bfb201a98b761e6f3dae83b60cba3bbaf"
-  integrity sha1-B+yei/sgGpi3Yebz2ug7YMuju68=
-  dependencies:
-    "@babel/runtime" "^7.12.1"
-    "@polkadot/util" "4.0.1"
-    "@polkadot/util-crypto" "4.0.1"
-
 "@polkadot/metadata@^2.5.1":
   version "2.5.1"
   resolved "https://registry.npm.taobao.org/@polkadot/metadata/download/@polkadot/metadata-2.5.1.tgz#f208c85c96ab723d09e14324d99fa25c84fe1108"
@@ -1592,16 +1583,15 @@
     memoizee "^0.4.14"
     rxjs "^6.6.3"
 
-"@polkadot/util-crypto@4.0.1", "@polkadot/util-crypto@^4.0.1":
-  version "4.0.1"
-  resolved "https://registry.npm.taobao.org/@polkadot/util-crypto/download/@polkadot/util-crypto-4.0.1.tgz#536fcdb159232bc00ef16f0c35d0b41cc8cbb802"
-  integrity sha1-U2/NsVkjK8AO8W8MNdC0HMjLuAI=
+"@polkadot/util-crypto@^3.4.1", "@polkadot/util-crypto@^3.7.1":
+  version "3.7.1"
+  resolved "https://registry.npm.taobao.org/@polkadot/util-crypto/download/@polkadot/util-crypto-3.7.1.tgz#69e1cca5adc521cf0880b244dc1ae0d086c42e4c"
+  integrity sha1-aeHMpa3FIc8IgLJE3Brg0IbELkw=
   dependencies:
     "@babel/runtime" "^7.12.1"
-    "@polkadot/networks" "4.0.1"
-    "@polkadot/util" "4.0.1"
-    "@polkadot/wasm-crypto" "^2.0.1"
-    "@polkadot/x-randomvalues" "4.0.1"
+    "@polkadot/networks" "^3.7.1"
+    "@polkadot/util" "^3.7.1"
+    "@polkadot/wasm-crypto" "^1.4.1"
     base-x "^3.0.8"
     blakejs "^1.1.0"
     bn.js "^5.1.3"
@@ -1613,15 +1603,16 @@
     tweetnacl "^1.0.3"
     xxhashjs "^0.2.2"
 
-"@polkadot/util-crypto@^3.4.1", "@polkadot/util-crypto@^3.7.1":
-  version "3.7.1"
-  resolved "https://registry.npm.taobao.org/@polkadot/util-crypto/download/@polkadot/util-crypto-3.7.1.tgz#69e1cca5adc521cf0880b244dc1ae0d086c42e4c"
-  integrity sha1-aeHMpa3FIc8IgLJE3Brg0IbELkw=
+"@polkadot/util-crypto@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.npm.taobao.org/@polkadot/util-crypto/download/@polkadot/util-crypto-4.0.1.tgz#536fcdb159232bc00ef16f0c35d0b41cc8cbb802"
+  integrity sha1-U2/NsVkjK8AO8W8MNdC0HMjLuAI=
   dependencies:
     "@babel/runtime" "^7.12.1"
-    "@polkadot/networks" "^3.7.1"
-    "@polkadot/util" "^3.7.1"
-    "@polkadot/wasm-crypto" "^1.4.1"
+    "@polkadot/networks" "4.0.1"
+    "@polkadot/util" "4.0.1"
+    "@polkadot/wasm-crypto" "^2.0.1"
+    "@polkadot/x-randomvalues" "4.0.1"
     base-x "^3.0.8"
     blakejs "^1.1.0"
     bn.js "^5.1.3"
