@@ -19,6 +19,7 @@ export default function () {
 
   const isAssignee = nowAddress && bounty?.hunters?.assignee?.accountId === nowAddress
   const isResolved = bounty?.state?.state === 'Resolved'
+  const isRemarked = bounty?.state?.state === 'Remarked'
 
   const remarkBountyFunder = async (bountyId, option) => {
     const api = await getApi()
@@ -37,7 +38,7 @@ export default function () {
           const method = event.method
           const data = event.data.toJSON()
 
-          if ('Resolve' === method && status.isFinalized) {
+          if ('HunterRemark' === method && status.isFinalized) {
             const [bountyId] = data
             console.log(`Remarked bounty ${bountyId}`)
             dispatch(addFlashToast(toastType.SUCCESS, 'Funder remarked'))
@@ -52,11 +53,11 @@ export default function () {
 
   return (
     <>
-      { (isResolved && isAssignee) &&
+      { ((isResolved || isRemarked) && isAssignee) &&
           <Button primary onClick={() => {
             setShowRemarkFunderModel(true)
-          }} disabled={false}>
-            Remark Funder
+          }} disabled={isRemarked}>
+            { isRemarked ? 'Remarked' : 'Remark Funder' }
           </Button>
       }
 

@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import styled from "styled-components";
-import { Button, Icon } from "semantic-ui-react";
+import { Button, Icon, Modal } from "semantic-ui-react";
 import Avatar from "@components/Avatar";
 import { toPrecision } from "../../utils";
-import { Alice, osnPrecision } from "../../utils/constants";
+import { osnPrecision } from "../../utils/constants";
 
 import { getApi } from "@services/api";
 import { addFlashToast, toastType } from "@store/reducers/toastSlice";
 import { bountySelector, fetchBounty } from "../../store/reducers/bountySlice";
+import { nowAddressSelector } from "@store/reducers/accountSlice";
 
 const Wrapper = styled.div`
 
@@ -107,84 +108,124 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
   const { bountyId } = useParams()
   const dispatch = useDispatch()
   const bounty = useSelector(bountySelector)
+  const nowAddress = useSelector(nowAddressSelector)
+  const [showRequireSignInModel, setShowRequireSignInModel] = useState(false)
+  const [showNeedCouncilorAccountModel, setShowNeedCouncilorAccountModel] = useState(false)
 
   const isApplying = bounty?.state?.state === 'Applying'
 
   const examineBounty = async (isAccept) => {
-    const api = await getApi()
-    const unsub = await api.tx.osBounties.examineBounty(bountyId, isAccept)
-      .signAndSend(Alice, async ({ events = [], status }) => {
-        console.log('status', status)
-        dispatch(fetchBounty(bountyId))
+    if (!nowAddress) {
+      setShowRequireSignInModel(true)
+    } else {
+      let remindOnce = true
+      const api = await getApi()
+      const unsub = await api.tx.osBounties.examineBounty(bountyId, isAccept)
+        .signAndSend(nowAddress, async ({ events = [], status }) => {
+          console.log('status', status)
+          dispatch(fetchBounty(bountyId))
 
-        if (status.isInBlock) {
-          dispatch(addFlashToast(toastType.INFO, 'Extrinsic inBlock'))
-        }
+          if (status.isInBlock) {
+            dispatch(addFlashToast(toastType.INFO, 'Extrinsic inBlock'))
+          }
 
-        for (const item of events) {
           console.log('events', events)
-          const { event } = item
-          const method = event.method
-          const data = event.data.toJSON()
+          for (const item of events) {
+            const { event } = item
+            const method = event.method
+            const data = event.data.toJSON()
+            console.log(method, data)
 
-          if (status.isFinalized) {
-            if ('Accept' === method) {
-              const [bountyId] = data
-              console.log(`Accepted bounty ${bountyId}`)
-              dispatch(addFlashToast(toastType.SUCCESS, 'Bounty accepted'))
-            } else if ('Reject' === method) {
-              const [bountyId] = data
-              console.log(`Rejected bounty ${bountyId}`)
-              dispatch(addFlashToast(toastType.SUCCESS, 'Bounty rejected'))
+            if (remindOnce && method === 'ExtrinsicFailed') {
+              // Remind user that must use councilor account
+              remindOnce = false
+              setShowNeedCouncilorAccountModel(true)
+              return
+            }
+
+            if (status.isFinalized) {
+              if ('Accept' === method) {
+                const [bountyId] = data
+                console.log(`Accepted bounty ${bountyId}`)
+                dispatch(addFlashToast(toastType.SUCCESS, 'Bounty accepted'))
+              } else if ('Reject' === method) {
+                const [bountyId] = data
+                console.log(`Rejected bounty ${bountyId}`)
+                dispatch(addFlashToast(toastType.SUCCESS, 'Bounty rejected'))
+              }
             }
           }
-        }
 
-        if (status.isFinalized) {
-          unsub()
-        }
-      })
+          if (status.isFinalized) {
+            unsub()
+          }
+        })
+    }
   }
 
   return (
-    <Wrapper>
-      <Header>
-        <Avatar className="avatar-content" src={avatar} />
-        <div className="title-content">
-          <TitleWrapper>
-            <span className="title">{title || ""}</span>
-            <div className="payment">{toPrecision(amount, osnPrecision, osnPrecision)} {currency}</div>
-          </TitleWrapper>
-          <LabelWrapper>
-            { labels && labels.map((item, index) => (<div key={index}>{item}</div>)) }
-          </LabelWrapper>
-        </div>
-      </Header>
-      { info && info.length > 0 && <InfoWrapper>
-        { info.map((item) => (
-          <div key={item.title}>
-            <span className="info-title">{item.title}</span>
-            <span className="info-content">{item.content}</span>
+    <>
+      <Wrapper>
+        <Header>
+          <Avatar className="avatar-content" src={avatar} />
+          <div className="title-content">
+            <TitleWrapper>
+              <span className="title">{title || ""}</span>
+              <div className="payment">{toPrecision(amount, osnPrecision, osnPrecision)} {currency}</div>
+            </TitleWrapper>
+            <LabelWrapper>
+              { labels && labels.map((item, index) => (<div key={index}>{item}</div>)) }
+            </LabelWrapper>
           </div>
-        )) }
-        </InfoWrapper>
-      }
-      <ButtonWrapper>
-        <Button basic disabled>
-          <Icon name="share alternate" />
-          Share
-        </Button>
-        <Button basic disabled>
-          <Icon name="github" />
-          Via on Github
-        </Button>
-        {
-          isApplying && <>
-            <Button primary onClick={() => examineBounty(true)}>Accept</Button>
-            <Button primary onClick={() => examineBounty(false)}>Reject</Button>
-            </>
+        </Header>
+        { info && info.length > 0 && <InfoWrapper>
+          { info.map((item) => (
+            <div key={item.title}>
+              <span className="info-title">{item.title}</span>
+              <span className="info-content">{item.content}</span>
+            </div>
+          )) }
+          </InfoWrapper>
         }
-      </ButtonWrapper>
-    </Wrapper>
+        <ButtonWrapper>
+          <Button basic disabled>
+            <Icon name="share alternate" />
+            Share
+          </Button>
+          <Button basic disabled>
+            <Icon name="github" />
+            Via on Github
+          </Button>
+          {
+            isApplying && <>
+              <Button primary onClick={() => examineBounty(true)}>Accept</Button>
+              <Button primary onClick={() => examineBounty(false)}>Reject</Button>
+              </>
+          }
+        </ButtonWrapper>
+      </Wrapper>
+
+      <Modal
+        size="mini"
+        open={showRequireSignInModel}
+        onClose={() => { setShowRequireSignInModel(false) }}
+      >
+        <Modal.Header>Need Sign In</Modal.Header>
+        <Modal.Content>
+          Signin is required to accept or reject a bounty.
+        </Modal.Content>
+      </Modal>
+
+      <Modal
+        size="mini"
+        open={showNeedCouncilorAccountModel}
+        onClose={() => { setShowNeedCouncilorAccountModel(false) }}
+      >
+        <Modal.Header>Need Councilor Account</Modal.Header>
+        <Modal.Content>
+          Operation failed, please make sure the currect account is a councilor.
+        </Modal.Content>
+      </Modal>
+    </>
   )
 }
