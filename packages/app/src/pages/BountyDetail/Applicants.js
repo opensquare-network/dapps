@@ -75,8 +75,17 @@ export default function ({ hunters, assignee }) {
                 {assignee?.accountId === hunter.accountId ? <Success /> : '' }
               </div>
               <div className="apply-at">
-                <DateShow value={hunter.indexer.blockTime} className="value"/>
-                <div className="label">Apply</div>
+                {
+                  assignee?.accountId === hunter.accountId
+                  ? <>
+                      <DateShow value={assignee.indexer.blockTime} className="value"/>
+                      <div className="label">Assigned</div>
+                    </>
+                  : <>
+                      <DateShow value={hunter.indexer.blockTime} className="value"/>
+                      <div className="label">Apply</div>
+                    </>
+                }
               </div>
             </div>
           </ApplicantItem>

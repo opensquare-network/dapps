@@ -10,7 +10,7 @@ import { osnPrecision } from "../../utils/constants";
 import { getApi } from "@services/api";
 import { addFlashToast, toastType } from "@store/reducers/toastSlice";
 import { bountySelector, fetchBounty } from "../../store/reducers/bountySlice";
-import { nowAddressSelector } from "@store/reducers/accountSlice";
+import { isCouncilorSelector, nowAddressSelector } from "@store/reducers/accountSlice";
 
 const Wrapper = styled.div`
 
@@ -109,6 +109,7 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
   const dispatch = useDispatch()
   const bounty = useSelector(bountySelector)
   const nowAddress = useSelector(nowAddressSelector)
+  const isCouncilor = useSelector(isCouncilorSelector)
   const [showRequireSignInModel, setShowRequireSignInModel] = useState(false)
   const [showNeedCouncilorAccountModel, setShowNeedCouncilorAccountModel] = useState(false)
 
@@ -198,8 +199,8 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
           </Button>
           {
             isApplying && <>
-              <Button primary onClick={() => examineBounty(true)}>Accept</Button>
-              <Button primary onClick={() => examineBounty(false)}>Reject</Button>
+              <Button primary onClick={() => examineBounty(true)} disabled={!isCouncilor}>Accept</Button>
+              <Button primary onClick={() => examineBounty(false)} disabled={!isCouncilor}>Reject</Button>
               </>
           }
         </ButtonWrapper>

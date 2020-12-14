@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { nowAddressSelector, setAccount, setAccountsModalOpen } from "@store/reducers/accountSlice";
+import { nowAddressSelector, setAccount, setAccountsModalOpen, setIsCouncilor } from "@store/reducers/accountSlice";
 import React, { useEffect, useState } from "react";
 import Addr from "@components/Address";
 import { Icon } from "semantic-ui-react";
@@ -12,7 +12,7 @@ const Wrapper = styled.span`
       &:first-of-type {
         margin-left: 10px;
       }
-      
+
       font-weight: normal;
       font-size: 14px;
       cursor: pointer;
@@ -60,7 +60,8 @@ export default function Account() {
       }
 
       <Icon name="sign-out" title="Sign Out" onClick={() => {
-        dispatch(setAccount(null));
+        dispatch(setAccount(null))
+        dispatch(setIsCouncilor(false))
       }} />
     </Wrapper>
   )

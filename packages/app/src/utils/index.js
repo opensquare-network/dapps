@@ -64,3 +64,7 @@ export function shortStr(str = '', length = 5) {
 export function elemIn(elem, arr) {
   return arr.indexOf(elem) >= 0
 }
+
+export function isCouncilorAccount(address) {
+  return address === '2ck7Ffrom1wmewMWUuQQYcw5tgTxiLj3c8foQ1hgc5dL2N3P'
+}

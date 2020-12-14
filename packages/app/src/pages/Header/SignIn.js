@@ -11,14 +11,16 @@ import {
   accountsModalOpenSelector,
   nowAddressSelector,
   setAccount,
-  setAccountsModalOpen
+  setAccountsModalOpen,
+  setIsCouncilor,
 } from "@store/reducers/accountSlice";
 import ClipboardJS from 'clipboard'
 import Account from "@pages/Header/Account";
+import { isCouncilorAccount } from "../../utils";
 
 const SignInWrapper = styled.span`
   cursor: pointer;
-  
+
   &:hover {
     color: #04D2C5;
   }
@@ -31,7 +33,7 @@ const SignInModal = styled(Modal)`
       justify-content: space-between;
       line-height: 36px;
       cursor: pointer;
-      
+
       &:hover {
         background: #FBFBFB;
       }
@@ -82,6 +84,7 @@ export default function() {
     const api = await getApi()
     api.setSigner(injector.signer)
     dispatch(setAccount(account))
+    dispatch(setIsCouncilor(isCouncilorAccount(account?.address)))
     dispatch(setAccountsModalOpen(false))
   }
 
