@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import styled from "styled-components";
 import { Button, Icon, Modal } from "semantic-ui-react";
 import Avatar from "@components/Avatar";
-import { toPrecision } from "../../utils";
+import { isCouncilorAccount, toPrecision } from "../../utils";
 import { osnPrecision } from "../../utils/constants";
 
 import { getApi } from "@services/api";
@@ -109,6 +109,7 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
   const dispatch = useDispatch()
   const bounty = useSelector(bountySelector)
   const nowAddress = useSelector(nowAddressSelector)
+  const isCouncilor = isCouncilorAccount(nowAddress)
   const [showRequireSignInModel, setShowRequireSignInModel] = useState(false)
   const [showNeedCouncilorAccountModel, setShowNeedCouncilorAccountModel] = useState(false)
 
@@ -198,8 +199,8 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
           </Button>
           {
             isApplying && <>
-              <Button primary onClick={() => examineBounty(true)}>Accept</Button>
-              <Button primary onClick={() => examineBounty(false)}>Reject</Button>
+              <Button primary onClick={() => examineBounty(true)} disabled={!isCouncilor}>Accept</Button>
+              <Button primary onClick={() => examineBounty(false)} disabled={!isCouncilor}>Reject</Button>
               </>
           }
         </ButtonWrapper>
