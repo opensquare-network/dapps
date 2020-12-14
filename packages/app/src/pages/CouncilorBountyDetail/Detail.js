@@ -4,7 +4,11 @@ import { useParams } from "react-router";
 import styled from "styled-components";
 import { Button, Icon, Modal } from "semantic-ui-react";
 import Avatar from "@components/Avatar";
+<<<<<<< HEAD
 import { isCouncilorAccount, toPrecision } from "../../utils";
+=======
+import { toPrecision } from "../../utils";
+>>>>>>> dev
 import { osnPrecision } from "../../utils/constants";
 
 import { getApi } from "@services/api";
