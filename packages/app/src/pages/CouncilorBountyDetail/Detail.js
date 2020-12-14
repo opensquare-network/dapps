@@ -4,13 +4,13 @@ import { useParams } from "react-router";
 import styled from "styled-components";
 import { Button, Icon, Modal } from "semantic-ui-react";
 import Avatar from "@components/Avatar";
-import { isCouncilorAccount, toPrecision } from "../../utils";
+import { toPrecision } from "../../utils";
 import { osnPrecision } from "../../utils/constants";
 
 import { getApi } from "@services/api";
 import { addFlashToast, toastType } from "@store/reducers/toastSlice";
 import { bountySelector, fetchBounty } from "../../store/reducers/bountySlice";
-import { nowAddressSelector } from "@store/reducers/accountSlice";
+import { isCouncilorSelector, nowAddressSelector } from "@store/reducers/accountSlice";
 
 const Wrapper = styled.div`
 
@@ -109,7 +109,7 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
   const dispatch = useDispatch()
   const bounty = useSelector(bountySelector)
   const nowAddress = useSelector(nowAddressSelector)
-  const isCouncilor = isCouncilorAccount(nowAddress)
+  const isCouncilor = useSelector(isCouncilorSelector)
   const [showRequireSignInModel, setShowRequireSignInModel] = useState(false)
   const [showNeedCouncilorAccountModel, setShowNeedCouncilorAccountModel] = useState(false)
 
