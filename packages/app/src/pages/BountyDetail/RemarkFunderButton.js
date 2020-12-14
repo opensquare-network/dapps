@@ -9,6 +9,22 @@ import { addFlashToast, toastType } from "@store/reducers/toastSlice";
 import { bountySelector, fetchBounty } from "../../store/reducers/bountySlice";
 
 import apiTypes from "@services/types"
+import styled from "styled-components";
+
+
+const ListModal = styled(Modal)`
+  .select-content {
+    li {
+      cursor: pointer;
+      padding: 3px;
+      font-size: 1.1em;
+
+      &:hover {
+        background: #FBFBFB;
+      }
+    }
+  }
+`
 
 export default function () {
   const nowAddress = useSelector(nowAddressSelector)
@@ -61,7 +77,7 @@ export default function () {
           </Button>
       }
 
-      <Modal
+      <ListModal
         size="mini"
         open={showRemarkFunderModel}
         onClose={() => {
@@ -69,7 +85,7 @@ export default function () {
         }}
       >
         <Modal.Header>Remark Funder</Modal.Header>
-        <Modal.Content className="account-select-content">
+        <Modal.Content className="select-content">
           { apiTypes ?
             (
               <ol>
@@ -88,7 +104,7 @@ export default function () {
             : <span>Api types not available</span>
           }
         </Modal.Content>
-      </Modal>
+      </ListModal>
     </>
   )
 }

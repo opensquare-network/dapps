@@ -10,6 +10,35 @@ import { ss58FormatSelector } from "@store/reducers/chainSlice";
 import { encodeAddress } from "@polkadot/keyring";
 import { bountySelector, fetchBounty } from "../../store/reducers/bountySlice";
 import Addr from "@components/Address";
+import styled from "styled-components";
+import DateShow from "../../components/DateShow";
+import Avatar from "@components/Avatar";
+
+
+const ListModal = styled(Modal)`
+  .select-content {
+    li {
+      cursor: pointer;
+
+      display: flex;
+      justify-content: space-between;
+      line-height: 36px;
+
+      &:hover {
+        background: #FBFBFB;
+      }
+
+      & > .address {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        & > div {
+          display: inline-block;
+        }
+      }
+    }
+  }
+`
 
 export default function () {
   const nowAddress = useSelector(nowAddressSelector)
@@ -63,15 +92,15 @@ export default function () {
           </Button>
       }
 
-      <Modal
+      <ListModal
         size="mini"
         open={showAssignHunterModel}
         onClose={() => {
           setShowAssignHunterModel(false)
         }}
       >
-        <Modal.Header>Assign to hunter</Modal.Header>
-        <Modal.Content className="account-select-content">
+        <Modal.Header>Assign to Hunter</Modal.Header>
+        <Modal.Content className="select-content">
           { bounty?.hunters?.hunters?.length > 0 ?
             (
               <ol>
@@ -81,7 +110,11 @@ export default function () {
                       assignBounty(bountyId, hunter.accountId)
                       setShowAssignHunterModel(false)
                     }}>
-                      <Addr>{hunter.accountId}</Addr>
+                      <div className="address">
+                        <Avatar width="25px" height="25px" />
+                        <Addr>{hunter.accountId}</Addr>
+                      </div>
+                      <DateShow value={hunter.indexer.blockTime} style={{color: 'rgba(29,37,60,0.24)'}}/>
                     </li>
                   )
                 })}
@@ -90,7 +123,7 @@ export default function () {
             : <span>No hunters</span>
           }
         </Modal.Content>
-      </Modal>
+      </ListModal>
     </>
   )
 }
