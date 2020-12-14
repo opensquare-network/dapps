@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import {isWeb3Injected, web3Accounts, web3Enable, web3FromAddress} from '@polkadot/extension-dapp'
-import {decodeAddress, encodeAddress} from "@polkadot/keyring";
-import {useDispatch, useSelector} from "react-redux";
-import {ss58FormatSelector} from "@store/reducers/chainSlice";
-import {Modal} from "semantic-ui-react";
+import { isWeb3Injected, web3Accounts, web3Enable, web3FromAddress } from '@polkadot/extension-dapp'
+import { decodeAddress, encodeAddress } from "@polkadot/keyring";
+import { useDispatch, useSelector } from "react-redux";
+import { ss58FormatSelector } from "@store/reducers/chainSlice";
+import { Modal } from "semantic-ui-react";
 import Addr from "@components/Address";
-import {getApi} from "@services/api";
+import { getApi } from "@services/api";
 import {
   accountsModalOpenSelector,
   nowAddressSelector,
