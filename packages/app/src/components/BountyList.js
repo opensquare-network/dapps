@@ -9,15 +9,14 @@ const Wrapper = styled.div`
   gap: 10px;
 `
 
-export default function BountyList({ bounties, councilor = false }) {
+export default function BountyList({bounties, councilor = false}) {
   return (
     <Wrapper>
-      { bounties.map(item =>
-          <BountyItem key={item.bountyId} bounty={item} councilor={councilor} />
-        ) }
+      {
+        bounties.map(item =>
+          <BountyItem key={item.bountyId} bounty={item} councilor={councilor}/>
+        )
+      }
     </Wrapper>
-
   )
-
-
 }
