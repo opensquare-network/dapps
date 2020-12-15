@@ -63,3 +63,9 @@ export function shortStr(str = '', length = 5) {
 export function elemIn(elem, arr) {
   return arr.indexOf(elem) >= 0
 }
+
+export function sleep(ms) {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(), ms)
+  })
+}

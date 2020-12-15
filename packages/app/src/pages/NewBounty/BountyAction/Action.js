@@ -19,6 +19,14 @@ import { accountSelector, isLoginSelector } from "@store/reducers/accountSlice";
 import ErrorLine from "@components/ErrorLine";
 import createBounty from "@pages/NewBounty/BountyAction/createBounty";
 import { useHistory } from "react-router";
+import { sleep } from "../../../utils"
+import api from "@services/explorerApi";
+
+
+async function checkBountyDataReady(bountyId) {
+  const { result } = await api.fetch(`/bounties/${bountyId}`)
+  return !!result
+}
 
 export default function Action() {
   const token = useSelector(newBountyTokenSelector)
@@ -73,8 +81,19 @@ export default function Action() {
       setCreating(false)
     }
 
+    // Wait until bounty data is ready before redirecting
     if (bountyId) {
-      history.push(`/bounty${bountyId}`)
+      // Maximium wait time
+      let maxWaitSeconds = 8
+
+      while (maxWaitSeconds--) {
+        await sleep(1000)
+        const ready = await checkBountyDataReady(bountyId)
+        if (ready) {
+          history.push(`/bounty/${bountyId}`)
+          break
+        }
+      }
     }
   }
 
