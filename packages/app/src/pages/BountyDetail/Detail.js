@@ -10,9 +10,7 @@ import SubmitButton from "./SubmitButton";
 import ResolveButton from "./ResolveButton";
 import RemarkFunderButton from "./RemarkFunderButton";
 
-const Wrapper = styled.div`
-
-`
+const Wrapper = styled.div``;
 
 const Header = styled.div`
   display: flex;
@@ -27,7 +25,7 @@ const Header = styled.div`
   .title-content {
     flex-grow: 1;
   }
-`
+`;
 
 const TitleWrapper = styled.div`
   min-height: 32px;
@@ -45,18 +43,18 @@ const TitleWrapper = styled.div`
     font-size: 18px;
     font-weight: 700;
     line-height: 32px;
-    color: #04D2C5;
+    color: #04d2c5;
     white-space: nowrap;
     margin-left: auto;
   }
-`
+`;
 
 const LabelWrapper = styled.div`
   & > div {
     display: inline-block;
     background: rgba(77, 113, 255, 0.1);
     border-radius: 4px;
-    color: #4D71FF;
+    color: #4d71ff;
     font-size: 12px;
     line-height: 20px;
     padding: 2px 8px;
@@ -66,10 +64,10 @@ const LabelWrapper = styled.div`
       margin-right: 0;
     }
   }
-`
+`;
 
 const InfoWrapper = styled.div`
-  background: #FBFBFB;
+  background: #fbfbfb;
   border-radius: 4px;
   margin-top: 20px;
   padding: 20px 24px;
@@ -89,7 +87,7 @@ const InfoWrapper = styled.div`
       margin: 0 0 auto;
     }
   }
-`
+`;
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -100,9 +98,9 @@ const ButtonWrapper = styled.div`
   & > .button {
     margin-right: 0px;
   }
-`
+`;
 
-export default function ( { avatar, title, amount, currency, labels, info } ) {
+export default function ({ avatar, title, amount, currency, labels, info }) {
   return (
     <Wrapper>
       <Header>
@@ -110,22 +108,26 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
         <div className="title-content">
           <TitleWrapper>
             <span className="title">{title || ""}</span>
-            <div className="payment">{toPrecision(amount, osnPrecision, osnPrecision)} {currency}</div>
+            <div className="payment">
+              {toPrecision(amount, osnPrecision, false)} {currency}
+            </div>
           </TitleWrapper>
           <LabelWrapper>
-            { labels && labels.map((item, index) => (<div key={index}>{item}</div>)) }
+            {labels &&
+              labels.map((item, index) => <div key={index}>{item}</div>)}
           </LabelWrapper>
         </div>
       </Header>
-      { info && info.length > 0 && <InfoWrapper>
-        { info.map((item) => (
-          <div key={item.title}>
-            <span className="info-title">{item.title}</span>
-            <span className="info-content">{item.content}</span>
-          </div>
-        )) }
+      {info && info.length > 0 && (
+        <InfoWrapper>
+          {info.map((item) => (
+            <div key={item.title}>
+              <span className="info-title">{item.title}</span>
+              <span className="info-content">{item.content}</span>
+            </div>
+          ))}
         </InfoWrapper>
-      }
+      )}
       <ButtonWrapper>
         <Button basic disabled>
           <Icon name="share alternate" />
@@ -142,5 +144,5 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
         <RemarkFunderButton />
       </ButtonWrapper>
     </Wrapper>
-  )
+  );
 }
