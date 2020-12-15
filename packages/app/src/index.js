@@ -7,12 +7,14 @@ import { Provider } from 'react-redux'
 import store from './store'
 import 'semantic-ui-css/semantic.min.css';
 import 'antd/dist/antd.css';
+import AutoSignIn from "@components/AutoSignIn";
 
 const root = document.getElementById('root');
 
 ReactDOM.render(
   <React.Fragment>
     <Provider store={store}>
+      <AutoSignIn />
       <GlobalStyle />
       <App />
     </Provider>
