@@ -104,8 +104,8 @@ const ButtonWrapper = styled.div`
   }
 `
 
-export default function ( { avatar, title, amount, currency, labels, info } ) {
-  const { bountyId } = useParams()
+export default function ({avatar, title, amount, currency, labels, info}) {
+  const {bountyId} = useParams()
   const dispatch = useDispatch()
   const bounty = useSelector(bountySelector)
   const nowAddress = useSelector(nowAddressSelector)
@@ -118,90 +118,91 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
   const examineBounty = async (isAccept) => {
     if (!nowAddress) {
       setShowRequireSignInModel(true)
-    } else {
-      let remindOnce = true
-      const api = await getApi()
-      const unsub = await api.tx.osBounties.examineBounty(bountyId, isAccept)
-        .signAndSend(nowAddress, async ({ events = [], status }) => {
-          console.log('status', status)
-          dispatch(fetchBounty(bountyId))
-
-          if (status.isInBlock) {
-            dispatch(addFlashToast(toastType.INFO, 'Extrinsic inBlock'))
-          }
-
-          console.log('events', events)
-          for (const item of events) {
-            const { event } = item
-            const method = event.method
-            const data = event.data.toJSON()
-            console.log(method, data)
-
-            if (remindOnce && method === 'ExtrinsicFailed') {
-              // Remind user that must use councilor account
-              remindOnce = false
-              setShowNeedCouncilorAccountModel(true)
-              return
-            }
-
-            if (status.isFinalized) {
-              if ('Accept' === method) {
-                const [bountyId] = data
-                console.log(`Accepted bounty ${bountyId}`)
-                dispatch(addFlashToast(toastType.SUCCESS, 'Bounty accepted'))
-              } else if ('Reject' === method) {
-                const [bountyId] = data
-                console.log(`Rejected bounty ${bountyId}`)
-                dispatch(addFlashToast(toastType.SUCCESS, 'Bounty rejected'))
-              }
-            }
-          }
-
-          if (status.isFinalized) {
-            unsub()
-          }
-        })
+      return
     }
+
+    let remindOnce = true
+    const api = await getApi()
+    const unsub = await api.tx.osBounties.examineBounty(bountyId, isAccept)
+      .signAndSend(nowAddress, async ({events = [], status}) => {
+        console.log('status', status)
+        dispatch(fetchBounty(bountyId))
+
+        if (!status.isInBlock) {
+          return
+        }
+
+        dispatch(addFlashToast(toastType.INFO, 'Extrinsic inBlock'))
+
+        console.log('events', events)
+        for (const item of events) {
+          const {event} = item
+          const method = event.method
+          const data = event.data.toJSON()
+          console.log(method, data)
+
+          if (remindOnce && method === 'ExtrinsicFailed') {
+            // Remind user that must use councilor account
+            remindOnce = false
+            setShowNeedCouncilorAccountModel(true)
+            return
+          }
+
+          if ('Accept' === method) {
+            const [bountyId] = data
+            console.log(`Accepted bounty ${bountyId}`)
+            dispatch(addFlashToast(toastType.SUCCESS, 'Bounty accepted'))
+          } else if ('Reject' === method) {
+            const [bountyId] = data
+            console.log(`Rejected bounty ${bountyId}`)
+            dispatch(addFlashToast(toastType.SUCCESS, 'Bounty rejected'))
+          }
+        }
+
+        if (status.isFinalized) {
+          unsub()
+        }
+      })
   }
 
   return (
     <>
       <Wrapper>
         <Header>
-          <Avatar className="avatar-content" src={avatar} />
+          <Avatar className="avatar-content" src={avatar}/>
           <div className="title-content">
             <TitleWrapper>
               <span className="title">{title || ""}</span>
               <div className="payment">{toPrecision(amount, osnPrecision, osnPrecision)} {currency}</div>
             </TitleWrapper>
             <LabelWrapper>
-              { labels && labels.map((item, index) => (<div key={index}>{item}</div>)) }
+              {labels && labels.map((item, index) => (<div key={index}>{item}</div>))}
             </LabelWrapper>
           </div>
         </Header>
-        { info && info.length > 0 && <InfoWrapper>
-          { info.map((item) => (
+        {info && info.length > 0 && <InfoWrapper>
+          {info.map((item) => (
             <div key={item.title}>
               <span className="info-title">{item.title}</span>
               <span className="info-content">{item.content}</span>
             </div>
-          )) }
-          </InfoWrapper>
+          ))}
+        </InfoWrapper>
         }
         <ButtonWrapper>
           <Button basic disabled>
-            <Icon name="share alternate" />
+            <Icon name="share alternate"/>
             Share
           </Button>
           <Button basic disabled>
-            <Icon name="github" />
+            <Icon name="github"/>
             Via on Github
           </Button>
           {
             isApplying && <>
               <Button primary onClick={() => examineBounty(true)} disabled={!isCouncilor}>Accept</Button>
               <Button primary onClick={() => examineBounty(false)} disabled={!isCouncilor}>Reject</Button>
-              </>
+            </>
           }
         </ButtonWrapper>
       </Wrapper>
@@ -209,7 +210,9 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
       <Modal
         size="mini"
         open={showRequireSignInModel}
-        onClose={() => { setShowRequireSignInModel(false) }}
+        onClose={() => {
+          setShowRequireSignInModel(false)
+        }}
       >
         <Modal.Header>Need Sign In</Modal.Header>
         <Modal.Content>
@@ -220,7 +223,9 @@ export default function ( { avatar, title, amount, currency, labels, info } ) {
       <Modal
         size="mini"
         open={showNeedCouncilorAccountModel}
-        onClose={() => { setShowNeedCouncilorAccountModel(false) }}
+        onClose={() => {
+          setShowNeedCouncilorAccountModel(false)
+        }}
       >
         <Modal.Header>Need Councilor Account</Modal.Header>
         <Modal.Content>
