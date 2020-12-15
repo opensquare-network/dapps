@@ -12,6 +12,8 @@ import Account from "@pages/Profile/Account";
 import Reputation from "@pages/Profile/Reputation";
 import MiningPower from "@pages/Profile/MiningPower";
 
+import TransitionModle from "./TransitionModal";
+
 const Wrapper = styled.div`
   padding-bottom: 30px;
 `
@@ -123,6 +125,9 @@ export default function Profile() {
                 <li>
                   <label>Reserved:</label>
                   <span>{toPrecision(reserved, precision, false)} OSN</span>
+                </li>
+                <li>
+                  <TransitionModle/>
                 </li>
               </ol>
             </Info>
