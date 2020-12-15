@@ -35,7 +35,7 @@ export default function () {
 
   const isAssignee = nowAddress && bounty?.hunters?.assignee?.accountId === nowAddress
   const isResolved = bounty?.state?.state === 'Resolved'
-  const isRemarked = bounty?.state?.state === 'Remarked'
+  const isRemarked = !!bounty?.hunters?.hunterRemark
 
   const remarkBountyFunder = async (bountyId, option) => {
     const api = await getApi()
