@@ -11,6 +11,7 @@ import { Divider } from "semantic-ui-react";
 import Detail from "./Detail";
 import Description from "./Description";
 import Applicants from "./Applicants";
+import Remark from "./Remark"
 import backArrow from "@static/back-arrow.svg";
 
 const Wrapper = styled(Container)`
@@ -62,7 +63,12 @@ export default function() {
     state: {},
   }
 
-  const { assignee, hunters } = bounty?.hunters || { hunters: [] }
+  const {
+    assignee,
+    hunters,
+    funderRemark,
+    hunterRemark,
+  } = bounty?.hunters || { hunters: [] }
 
   useEffect(() => {
     if (digest) {
@@ -92,8 +98,18 @@ export default function() {
         <Detail title={title} amount={amount} currency={currency} {...fakeDetailData} />
         <Divider />
         <Description md={content?.content || 'No data'}></Description>
-        <Divider />
-        <Applicants assignee={assignee} hunters={hunters} />
+        {
+          (hunterRemark || funderRemark) && <>
+            <Divider />
+            <Remark hunterRemark={hunterRemark} funderRemark={funderRemark} />
+          </>
+        }
+        {
+          (hunters && hunters.length > 0) && <>
+            <Divider />
+            <Applicants assignee={assignee} hunters={hunters} />
+          </>
+        }
       </Content>
     </Wrapper>
   );
