@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBounty, bountySelector, bountyContentSelector, fetchBountyContent } from "../../store/reducers/bountySlice";
+import {
+  bountyContentSelector,
+  bountySelector,
+  fetchBounty,
+  fetchBountyContent
+} from "../../store/reducers/bountySlice";
 import styled from "styled-components";
 import { useParams } from 'react-router'
 import Container from "@components/Container";
@@ -27,8 +32,8 @@ const Nav = styled.nav`
   gap: 10px;
 `
 
-export default function() {
-  const { bountyId } = useParams()
+export default function () {
+  const {bountyId} = useParams()
   const dispatch = useDispatch()
   const bounty = useSelector(bountySelector)
   const content = useSelector(bountyContentSelector)
@@ -49,7 +54,7 @@ export default function() {
       }
     },
   } = bounty || {
-    meta: { V1: { title: '' } },
+    meta: {V1: {title: ''}},
     state: {},
   }
 
@@ -64,23 +69,23 @@ export default function() {
     avatar: "",
     labels: ["N/A", "N/A"],
     info: [
-      { title: "Time Left", content: "N/A" },
-      { title: "Experience Level", content: "N/A" },
-      { title: "Issue Type", content: "N/A" },
-      { title: "Workers Auto Approve", content: "N/A" },
-      { title: "Opened", content: "N/A" },
+      {title: "Time Left", content: "N/A"},
+      {title: "Experience Level", content: "N/A"},
+      {title: "Issue Type", content: "N/A"},
+      {title: "Workers Auto Approve", content: "N/A"},
+      {title: "Opened", content: "N/A"},
     ]
   };
 
   return (
     <Wrapper>
       <NavLink to="/councilor">
-        <Nav><img src={backArrow} alt="back arrow" /> Back to Councilor Explorer</Nav>
+        <Nav><img src={backArrow} alt="back arrow"/> Back to Councilor Explorer</Nav>
       </NavLink>
       <Content>
         <Detail title={title} amount={amount} currency={currency} {...fakeDetailData} />
-        <Divider />
-        <Description md={content?.content || 'No data'}></Description>
+        <Divider/>
+        <Description md={content?.content || 'No data'}/>
       </Content>
     </Wrapper>
   );
