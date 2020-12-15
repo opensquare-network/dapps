@@ -1,6 +1,7 @@
 import { addFlashToast, toastType } from "@store/reducers/toastSlice";
 import { encodeAddress } from "@polkadot/keyring";
 import { getApi } from "@services/api";
+import BigNumber from "bignumber.js";
 
 export default async function createBounty(account, bounty, dispatch, ss58Format) {
   let resolve, reject = null
@@ -37,4 +38,12 @@ export default async function createBounty(account, bounty, dispatch, ss58Format
   }
 
   return promise
+}
+
+export async function estimateBountyCreationFee(account, bounty) {
+  const api = await getApi()
+  const paymentInfo = await api.tx.osBounties.createBounty(bounty).paymentInfo(account.extensionAddress)
+
+  const txFee = new BigNumber(paymentInfo.partialFee)
+  return txFee
 }
