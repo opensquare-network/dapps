@@ -15,7 +15,7 @@ export default function Balance({ value, align = 'left' }) {
 
   return (
     <Wrapper align={align}>
-      {toPrecision(value, osnPrecision, osnPrecision)} OSN
+      {toPrecision(value, osnPrecision, false)} OSN
     </Wrapper>
   )
 }
