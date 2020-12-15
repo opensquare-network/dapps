@@ -66,7 +66,7 @@ export default function () {
   return (
     <>
       {(isAccepted && !isAssignee && !isFunder) &&
-      <Button primary onClick={huntBounty} disabled={isHunter}>
+      <Button primary onClick={huntBounty} disabled={hunted || isHunter}>
         {hunted || isHunter ? 'Already Hunted' : 'Hunt'}
       </Button>
       }
