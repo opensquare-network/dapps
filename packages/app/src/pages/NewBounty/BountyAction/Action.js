@@ -1,4 +1,4 @@
-import { Button } from "semantic-ui-react";
+import { Button, Modal } from "semantic-ui-react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -17,7 +17,8 @@ import BigNumber from "bignumber.js";
 import { postContent } from "@services/contentServer";
 import { accountSelector, isLoginSelector } from "@store/reducers/accountSlice";
 import ErrorLine from "@components/ErrorLine";
-import createBounty from "@pages/NewBounty/BountyAction/createBounty";
+import createBounty, { estimateBountyCreationFee } from "@pages/NewBounty/BountyAction/createBounty";
+import { freeBalanceSelector } from "@store/reducers/balanceSlice";
 import { useHistory } from "react-router";
 import { sleep } from "../../../utils"
 import api from "@services/explorerApi";
@@ -36,8 +37,10 @@ export default function Action() {
   const precision = useSelector(osnPrecisionSelector)
   const isLogin = useSelector(isLoginSelector)
   const account = useSelector(accountSelector)
+  const free = useSelector(freeBalanceSelector)
 
   const [creating, setCreating] = useState(false)
+  const [insufficientBalance, setInsufficientBalance] = useState(false)
 
   const ss58Format = useSelector(ss58FormatSelector)
   const dispatch = useDispatch()
@@ -76,6 +79,13 @@ export default function Action() {
       const realAmount = new BigNumber(amount).multipliedBy(Math.pow(10, precision)).toNumber()
       const bounty = newBounty(account.address, token, realAmount, title, description)
 
+      const freeBalance = new BigNumber(free)
+      const txFee = await estimateBountyCreationFee(account, bounty)
+      if (freeBalance.lt(txFee.plus(realAmount))) {
+        setInsufficientBalance(true)
+        return
+      }
+
       bountyId = await createBounty(account, bounty, dispatch, ss58Format)
     } finally {
       setCreating(false)
@@ -108,6 +118,19 @@ export default function Action() {
       {
         !isLogin && <ErrorLine>Please sign in to create bounty</ErrorLine>
       }
+
+      <Modal
+        size="mini"
+        open={insufficientBalance}
+        onClose={() => {
+          setInsufficientBalance(false)
+        }}
+      >
+        <Modal.Header>Insufficient balance</Modal.Header>
+        <Modal.Content>
+          Your balance is not enough to cover the transaction fee and the bounty payment.
+        </Modal.Content>
+      </Modal>
     </>
   )
 }
