@@ -1,8 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBounty, bountySelector, bountyContentSelector, fetchBountyContent } from "../../store/reducers/bountySlice";
+import {
+  bountyContentSelector,
+  bountySelector,
+  fetchBounty,
+  fetchBountyContent
+} from "../../store/reducers/bountySlice";
 import styled from "styled-components";
-import { useHistory, useParams } from 'react-router'
+import { useParams } from 'react-router'
 import Container from "@components/Container";
 import Card from "@components/Card";
 import { NavLink } from "react-router-dom";
@@ -29,10 +34,8 @@ const Nav = styled.nav`
   gap: 10px;
 `
 
-export default function() {
-  // eslint-disable-next-line
-  const history = useHistory()
-  const { bountyId } = useParams()
+export default function () {
+  const {bountyId} = useParams()
   const dispatch = useDispatch()
   const bounty = useSelector(bountySelector)
   const content = useSelector(bountyContentSelector)
@@ -44,8 +47,6 @@ export default function() {
   }, [dispatch, bountyId])
 
   const {
-    // eslint-disable-next-line
-    creator,
     meta: {
       V1: {
         currency_id: currency,
@@ -54,12 +55,8 @@ export default function() {
         digest,
       }
     },
-    state: {
-      // eslint-disable-next-line
-      state
-    },
   } = bounty || {
-    meta: { V1: { title: '' } },
+    meta: {V1: {title: ''}},
     state: {},
   }
 
@@ -68,7 +65,7 @@ export default function() {
     hunters,
     funderRemark,
     hunterRemark,
-  } = bounty?.hunters || { hunters: [] }
+  } = bounty?.hunters || {hunters: []}
 
   useEffect(() => {
     if (digest) {
@@ -81,33 +78,33 @@ export default function() {
     avatar: "",
     labels: ["N/A", "N/A"],
     info: [
-      { title: "Time Left", content: "N/A" },
-      { title: "Experience Level", content: "N/A" },
-      { title: "Issue Type", content: "N/A" },
-      { title: "Workers Auto Approve", content: "N/A" },
-      { title: "Opened", content: "N/A" },
+      {title: "Time Left", content: "N/A"},
+      {title: "Experience Level", content: "N/A"},
+      {title: "Issue Type", content: "N/A"},
+      {title: "Workers Auto Approve", content: "N/A"},
+      {title: "Opened", content: "N/A"},
     ]
   };
 
   return (
     <Wrapper>
       <NavLink to="/">
-        <Nav><img src={backArrow} alt="back arrow" /> Back to issue Explorer</Nav>
+        <Nav><img src={backArrow} alt="back arrow"/> Back to issue Explorer</Nav>
       </NavLink>
       <Content>
         <Detail title={title} amount={amount} currency={currency} {...fakeDetailData} />
-        <Divider />
-        <Description md={content?.content || 'No data'}></Description>
+        <Divider/>
+        <Description md={content?.content || 'No data'}/>
         {
           (hunterRemark || funderRemark) && <>
-            <Divider />
-            <Remark hunterRemark={hunterRemark} funderRemark={funderRemark} />
+            <Divider/>
+            <Remark hunterRemark={hunterRemark} funderRemark={funderRemark}/>
           </>
         }
         {
           (hunters && hunters.length > 0) && <>
-            <Divider />
-            <Applicants assignee={assignee} hunters={hunters} />
+            <Divider/>
+            <Applicants assignee={assignee} hunters={hunters}/>
           </>
         }
       </Content>
