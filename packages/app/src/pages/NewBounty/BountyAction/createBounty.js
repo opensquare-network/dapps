@@ -12,17 +12,17 @@ export default async function createBounty(account, bounty, dispatch, ss58Format
   try {
     const api = await getApi()
     const unsub = await api.tx.osBounties.createBounty(bounty)
-      .signAndSend(account.extensionAddress, async ({ events = [], status }) => {
-        if (status.isInBlock) {
-          dispatch(addFlashToast(toastType.INFO, 'Extrinsic inBlock'))
+      .signAndSend(account.extensionAddress, async ({events = [], status}) => {
+        if (!status.isInBlock) {
+          return
         }
 
         for (const item of events) {
-          const { event } = item
+          const {event} = item
           const method = event.method
           const data = event.data.toJSON()
 
-          if ('ApplyBounty' === method && status.isFinalized) {
+          if ('ApplyBounty' === method) {
             const [accountId, bountyId] = data
             console.log(`${encodeAddress(accountId, ss58Format)} created bounty ${bountyId}`)
             dispatch(addFlashToast(toastType.SUCCESS, 'Created! Waiting for the council review'))
