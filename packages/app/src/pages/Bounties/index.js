@@ -48,7 +48,7 @@ export default function() {
         <section>
           <BannerTitle>Bounty Explorer</BannerTitle>
           <Search>
-            <Input icon='search' iconPosition='left' placeholder='Search Bounties...' />
+            <Input icon='search' iconPosition='left' placeholder='Search Bounties...' disabled />
             <Button primary onClick={() => {
               history.push(`/fund`)
             }}>New Bounty</Button>
