@@ -6,8 +6,11 @@ const Wrapper = styled(NavLink)`
   color: ${p => p.pathname === p.locationpathname ?  '#1D253C' : 'rgba(29, 37, 60, 0.64)'}
 `
 
-export default function({ pathname, locationpathname, children }) {
-  return (
+export default function({ pathname, locationpathname, children, visibility = true }) {
+  if (visibility) {
+    return (
       <Wrapper to={pathname} pathname={pathname} locationpathname={locationpathname}>{children}</Wrapper>
-  )
+    )
+  }
+  return null
 }
