@@ -14,7 +14,6 @@ import styled from "styled-components";
 import DateShow from "../../components/DateShow";
 import Avatar from "@components/Avatar";
 
-
 const ListModal = styled(Modal)`
   .select-content {
     li {
@@ -25,7 +24,7 @@ const ListModal = styled(Modal)`
       line-height: 36px;
 
       &:hover {
-        background: #FBFBFB;
+        background: #fbfbfb;
       }
 
       & > .address {
@@ -38,92 +37,114 @@ const ListModal = styled(Modal)`
       }
     }
   }
-`
+`;
 
 export default function () {
-  const nowAddress = useSelector(nowAddressSelector)
-  const [showAssignHunterModel, setShowAssignHunterModel] = useState(false)
-  const { bountyId } = useParams()
-  const dispatch = useDispatch()
-  const ss58Format = useSelector(ss58FormatSelector)
-  const bounty = useSelector(bountySelector)
+  const nowAddress = useSelector(nowAddressSelector);
+  const [showAssignHunterModel, setShowAssignHunterModel] = useState(false);
+  const { bountyId } = useParams();
+  const dispatch = useDispatch();
+  const ss58Format = useSelector(ss58FormatSelector);
+  const bounty = useSelector(bountySelector);
 
-  const isFunder = bounty?.creator === nowAddress
-  const isAccepted = bounty?.state?.state === 'Accepted'
-  const isAssigned = bounty?.state?.state === 'Assigned'
+  const isFunder = bounty?.creator === nowAddress;
+  const isAccepted = bounty?.state?.state === "Accepted";
+  const isAssigned = bounty?.state?.state === "Assigned";
 
   const assignBounty = async (bountyId, address) => {
-    const api = await getApi()
-    const unsub = await api.tx.osBounties.assignBounty(bountyId, address)
+    const api = await getApi();
+    const unsub = await api.tx.osBounties
+      .assignBounty(bountyId, address)
       .signAndSend(nowAddress, async ({ events = [], status }) => {
-        console.log('status', status)
-        dispatch(fetchBounty(bountyId))
-
-        if (status.isInBlock) {
-          dispatch(addFlashToast(toastType.INFO, 'Extrinsic inBlock'))
+        if (status.isFinalized) {
+          dispatch(fetchBounty(bountyId));
+          unsub();
         }
+
+        if (!status.isInBlock) {
+          return;
+        }
+
+        dispatch(addFlashToast(toastType.INFO, "Extrinsic inBlock"));
 
         for (const item of events) {
-          console.log('events', events)
-          const { event } = item
-          const method = event.method
-          const data = event.data.toJSON()
+          const { event } = item;
+          const method = event.method;
+          const data = event.data.toJSON();
 
-          if ('AssignBounty' === method && status.isFinalized) {
-            const [bountyId, accountId] = data
-            console.log(`Assigned bounty ${bountyId} to ${encodeAddress(accountId, ss58Format)} `)
-            dispatch(addFlashToast(toastType.SUCCESS, 'Bounty assigned, please wait for submission'))
+          if ("AssignBounty" === method) {
+            const [bountyId, accountId] = data;
+            console.log(
+              `Assigned bounty ${bountyId} to ${encodeAddress(
+                accountId,
+                ss58Format
+              )} `
+            );
+            dispatch(
+              addFlashToast(
+                toastType.SUCCESS,
+                "Bounty assigned, please wait for submission"
+              )
+            );
+            setTimeout(() => {
+              dispatch(fetchBounty(bountyId));
+            }, 1);
           }
         }
-
-        if (status.isFinalized) {
-          unsub()
-        }
-      })
-  }
+      });
+  };
 
   return (
     <>
-      { ((isAccepted || isAssigned) && isFunder) &&
-          <Button primary onClick={() => {
-            setShowAssignHunterModel(true)
-          }} disabled={isAssigned}>
-            { isAssigned ? 'Assigned' : 'Assign to Hunter' }
-          </Button>
-      }
+      {(isAccepted || isAssigned) && isFunder && (
+        <Button
+          primary
+          onClick={() => {
+            setShowAssignHunterModel(true);
+          }}
+          disabled={isAssigned}
+        >
+          {isAssigned ? "Assigned" : "Assign to Hunter"}
+        </Button>
+      )}
 
       <ListModal
         size="mini"
         open={showAssignHunterModel}
         onClose={() => {
-          setShowAssignHunterModel(false)
+          setShowAssignHunterModel(false);
         }}
       >
         <Modal.Header>Assign to Hunter</Modal.Header>
         <Modal.Content className="select-content">
-          { bounty?.hunters?.hunters?.length > 0 ?
-            (
-              <ol>
-                {(bounty?.hunters?.hunters || []).map(hunter => {
-                  return (
-                    <li key={hunter.accountId} onClick={() => {
-                      assignBounty(bountyId, hunter.accountId)
-                      setShowAssignHunterModel(false)
-                    }}>
-                      <div className="address">
-                        <Avatar width="25px" height="25px" />
-                        <Addr>{hunter.accountId}</Addr>
-                      </div>
-                      <DateShow value={hunter.indexer.blockTime} style={{color: 'rgba(29,37,60,0.24)'}}/>
-                    </li>
-                  )
-                })}
-              </ol>
-            )
-            : <span>No hunters</span>
-          }
+          {bounty?.hunters?.hunters?.length > 0 ? (
+            <ol>
+              {(bounty?.hunters?.hunters || []).map((hunter) => {
+                return (
+                  <li
+                    key={hunter.accountId}
+                    onClick={() => {
+                      assignBounty(bountyId, hunter.accountId);
+                      setShowAssignHunterModel(false);
+                    }}
+                  >
+                    <div className="address">
+                      <Avatar width="25px" height="25px" />
+                      <Addr>{hunter.accountId}</Addr>
+                    </div>
+                    <DateShow
+                      value={hunter.indexer.blockTime}
+                      style={{ color: "rgba(29,37,60,0.24)" }}
+                    />
+                  </li>
+                );
+              })}
+            </ol>
+          ) : (
+            <span>No hunters</span>
+          )}
         </Modal.Content>
       </ListModal>
     </>
-  )
+  );
 }
