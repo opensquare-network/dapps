@@ -10,11 +10,13 @@ import { osnPrecision } from "../../utils/constants";
 import { getApi } from "@services/api";
 import { addFlashToast, toastType } from "@store/reducers/toastSlice";
 import { bountySelector, fetchBounty } from "../../store/reducers/bountySlice";
-import { isCouncilorSelector, nowAddressSelector } from "@store/reducers/accountSlice";
+import {
+  isCouncilorSelector,
+  nowAddressSelector,
+  isLoginSelector,
+} from "@store/reducers/accountSlice";
 
-const Wrapper = styled.div`
-
-`
+const Wrapper = styled.div``;
 
 const Header = styled.div`
   display: flex;
@@ -29,7 +31,7 @@ const Header = styled.div`
   .title-content {
     flex-grow: 1;
   }
-`
+`;
 
 const TitleWrapper = styled.div`
   min-height: 32px;
@@ -47,18 +49,18 @@ const TitleWrapper = styled.div`
     font-size: 18px;
     font-weight: 700;
     line-height: 32px;
-    color: #04D2C5;
+    color: #04d2c5;
     white-space: nowrap;
     margin-left: auto;
   }
-`
+`;
 
 const LabelWrapper = styled.div`
   & > div {
     display: inline-block;
     background: rgba(77, 113, 255, 0.1);
     border-radius: 4px;
-    color: #4D71FF;
+    color: #4d71ff;
     font-size: 12px;
     line-height: 20px;
     padding: 2px 8px;
@@ -68,10 +70,10 @@ const LabelWrapper = styled.div`
       margin-right: 0;
     }
   }
-`
+`;
 
 const InfoWrapper = styled.div`
-  background: #FBFBFB;
+  background: #fbfbfb;
   border-radius: 4px;
   margin-top: 20px;
   padding: 20px 24px;
@@ -91,7 +93,7 @@ const InfoWrapper = styled.div`
       margin: 0 0 auto;
     }
   }
-`
+`;
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -102,108 +104,130 @@ const ButtonWrapper = styled.div`
   & > .button {
     margin-right: 0px;
   }
-`
+`;
 
-export default function ({avatar, title, amount, currency, labels, info}) {
-  const {bountyId} = useParams()
-  const dispatch = useDispatch()
-  const bounty = useSelector(bountySelector)
-  const nowAddress = useSelector(nowAddressSelector)
-  const isCouncilor = useSelector(isCouncilorSelector)
-  const [showRequireSignInModel, setShowRequireSignInModel] = useState(false)
-  const [showNeedCouncilorAccountModel, setShowNeedCouncilorAccountModel] = useState(false)
+export default function ({ avatar, title, amount, currency, labels, info }) {
+  const { bountyId } = useParams();
+  const dispatch = useDispatch();
+  const bounty = useSelector(bountySelector);
+  const nowAddress = useSelector(nowAddressSelector);
+  const isLogin = useSelector(isLoginSelector);
+  const isCouncilor = useSelector(isCouncilorSelector);
+  const [showRequireSignInModel, setShowRequireSignInModel] = useState(false);
+  const [
+    showNeedCouncilorAccountModel,
+    setShowNeedCouncilorAccountModel,
+  ] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  const isApplying = bounty?.state?.state === 'Applying'
+  const isApplying = bounty?.state?.state === "Applying";
 
   const examineBounty = async (isAccept) => {
-    if (!nowAddress) {
-      setShowRequireSignInModel(true)
-      return
+    if (!isLogin) {
+      setShowRequireSignInModel(true);
+      return;
     }
 
-    let remindOnce = true
-    const api = await getApi()
-    const unsub = await api.tx.osBounties.examineBounty(bountyId, isAccept)
-      .signAndSend(nowAddress, async ({events = [], status}) => {
-        console.log('status', status)
-        dispatch(fetchBounty(bountyId))
+    let remindOnce = true;
+    const api = await getApi();
+    const unsub = await api.tx.osBounties
+      .examineBounty(bountyId, isAccept)
+      .signAndSend(nowAddress, async ({ events = [], status }) => {
+        if (status.isFinalized) {
+          dispatch(fetchBounty(bountyId));
+          unsub();
+        }
 
         if (!status.isInBlock) {
-          return
+          return;
         }
 
-        dispatch(addFlashToast(toastType.INFO, 'Extrinsic inBlock'))
+        dispatch(addFlashToast(toastType.INFO, "Extrinsic inBlock"));
 
-        console.log('events', events)
         for (const item of events) {
-          const {event} = item
-          const method = event.method
-          const data = event.data.toJSON()
-          console.log(method, data)
+          const { event } = item;
+          const method = event.method;
+          const data = event.data.toJSON();
 
-          if (remindOnce && method === 'ExtrinsicFailed') {
+          if (remindOnce && method === "ExtrinsicFailed") {
             // Remind user that must use councilor account
-            remindOnce = false
-            setShowNeedCouncilorAccountModel(true)
-            return
+            remindOnce = false;
+            setShowNeedCouncilorAccountModel(true);
+            return;
           }
 
-          if ('Accept' === method) {
-            const [bountyId] = data
-            console.log(`Accepted bounty ${bountyId}`)
-            dispatch(addFlashToast(toastType.SUCCESS, 'Bounty accepted'))
-          } else if ('Reject' === method) {
-            const [bountyId] = data
-            console.log(`Rejected bounty ${bountyId}`)
-            dispatch(addFlashToast(toastType.SUCCESS, 'Bounty rejected'))
+          if ("Accept" === method) {
+            const [bountyId] = data;
+            console.log(`Accepted bounty ${bountyId}`);
+            dispatch(addFlashToast(toastType.SUCCESS, "Bounty accepted"));
+            dispatch(fetchBounty(bountyId));
+            setIsSuccess(true);
+          } else if ("Reject" === method) {
+            const [bountyId] = data;
+            console.log(`Rejected bounty ${bountyId}`);
+            dispatch(addFlashToast(toastType.SUCCESS, "Bounty rejected"));
+            dispatch(fetchBounty(bountyId));
+            setIsSuccess(true);
           }
         }
-
-        if (status.isFinalized) {
-          unsub()
-        }
-      })
-  }
+      });
+  };
 
   return (
     <>
       <Wrapper>
         <Header>
-          <Avatar className="avatar-content" src={avatar}/>
+          <Avatar className="avatar-content" src={avatar} />
           <div className="title-content">
             <TitleWrapper>
               <span className="title">{title || ""}</span>
-              <div className="payment">{toPrecision(amount, osnPrecision, osnPrecision)} {currency}</div>
+              <div className="payment">
+                {toPrecision(amount, osnPrecision, osnPrecision)} {currency}
+              </div>
             </TitleWrapper>
             <LabelWrapper>
-              {labels && labels.map((item, index) => (<div key={index}>{item}</div>))}
+              {labels &&
+                labels.map((item, index) => <div key={index}>{item}</div>)}
             </LabelWrapper>
           </div>
         </Header>
-        {info && info.length > 0 && <InfoWrapper>
-          {info.map((item) => (
-            <div key={item.title}>
-              <span className="info-title">{item.title}</span>
-              <span className="info-content">{item.content}</span>
-            </div>
-          ))}
-        </InfoWrapper>
-        }
+        {info && info.length > 0 && (
+          <InfoWrapper>
+            {info.map((item) => (
+              <div key={item.title}>
+                <span className="info-title">{item.title}</span>
+                <span className="info-content">{item.content}</span>
+              </div>
+            ))}
+          </InfoWrapper>
+        )}
         <ButtonWrapper>
           <Button basic disabled>
-            <Icon name="share alternate"/>
+            <Icon name="share alternate" />
             Share
           </Button>
           <Button basic disabled>
-            <Icon name="github"/>
+            <Icon name="github" />
             Via on Github
           </Button>
-          {
-            isApplying && <>
-              <Button primary onClick={() => examineBounty(true)} disabled={!isCouncilor}>Accept</Button>
-              <Button primary onClick={() => examineBounty(false)} disabled={!isCouncilor}>Reject</Button>
+          {isApplying && !isSuccess && (
+            <>
+              <Button
+                primary
+                onClick={() => examineBounty(true)}
+                disabled={!isCouncilor}
+              >
+                Accept
+              </Button>
+              <Button
+                primary
+                onClick={() => examineBounty(false)}
+                disabled={!isCouncilor}
+              >
+                Reject
+              </Button>
             </>
-          }
+          )}
         </ButtonWrapper>
       </Wrapper>
 
@@ -211,7 +235,7 @@ export default function ({avatar, title, amount, currency, labels, info}) {
         size="mini"
         open={showRequireSignInModel}
         onClose={() => {
-          setShowRequireSignInModel(false)
+          setShowRequireSignInModel(false);
         }}
       >
         <Modal.Header>Need Sign In</Modal.Header>
@@ -224,7 +248,7 @@ export default function ({avatar, title, amount, currency, labels, info}) {
         size="mini"
         open={showNeedCouncilorAccountModel}
         onClose={() => {
-          setShowNeedCouncilorAccountModel(false)
+          setShowNeedCouncilorAccountModel(false);
         }}
       >
         <Modal.Header>Need Councilor Account</Modal.Header>
@@ -233,5 +257,5 @@ export default function ({avatar, title, amount, currency, labels, info}) {
         </Modal.Content>
       </Modal>
     </>
-  )
+  );
 }
