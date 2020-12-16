@@ -3,7 +3,10 @@ import Banner from "@components/Banner";
 import React from "react";
 import { useSelector } from "react-redux";
 import { nowAddressSelector } from "@store/reducers/accountSlice";
-import { freeBalanceSelector, reservedBalanceSelector } from "@store/reducers/balanceSlice";
+import {
+  freeBalanceSelector,
+  reservedBalanceSelector,
+} from "@store/reducers/balanceSlice";
 import { osnPrecisionSelector } from "@store/reducers/chainSlice";
 import { toPrecision } from "../../utils";
 import Tabs from "@pages/Profile/Tabs";
@@ -12,11 +15,11 @@ import Account from "@pages/Profile/Account";
 import Reputation from "@pages/Profile/Reputation";
 import MiningPower from "@pages/Profile/MiningPower";
 
-import TransitionModle from "./TransitionModal";
+import TransferModle from "./TransferModal";
 
 const Wrapper = styled.div`
   padding-bottom: 30px;
-`
+`;
 
 export const ProfileBanner = styled(Banner)`
   display: flex;
@@ -36,19 +39,18 @@ export const ProfileBanner = styled(Banner)`
       width: 100%;
     }
   }
-`
+`;
 
 const Left = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
 const Right = styled.div`
   display: flex;
   align-items: center;
 
   li {
-
     &:not(:first-of-type) {
       margin-left: 30px !important;
     }
@@ -57,11 +59,9 @@ const Right = styled.div`
       font-weight: bold;
       font-size: 16px;
       text-align: right;
-
     }
-
   }
-`
+`;
 
 const Info = styled.section`
   margin-left: 24px;
@@ -72,7 +72,7 @@ const Info = styled.section`
     font-weight: bold;
     font-size: 18px;
     line-height: 32px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   ol {
@@ -94,14 +94,14 @@ const Info = styled.section`
       }
     }
   }
-`
+`;
 
 export default function Profile() {
-  const address = useSelector(nowAddressSelector)
+  const address = useSelector(nowAddressSelector);
 
-  const free = useSelector(freeBalanceSelector)
-  const reserved = useSelector(reservedBalanceSelector)
-  const precision = useSelector(osnPrecisionSelector)
+  const free = useSelector(freeBalanceSelector);
+  const reserved = useSelector(reservedBalanceSelector);
+  const precision = useSelector(osnPrecisionSelector);
 
   return (
     <Wrapper>
@@ -110,13 +110,7 @@ export default function Profile() {
           <Left>
             <Avatar />
             <Info>
-              <h3>
-                {
-                  address ?
-                    <Account />
-                    : '--'
-                }
-              </h3>
+              <h3>{address ? <Account /> : "--"}</h3>
               <ol>
                 <li>
                   <label>Free</label>
@@ -127,7 +121,7 @@ export default function Profile() {
                   <span>{toPrecision(reserved, precision, false)} OSN</span>
                 </li>
                 <li>
-                  <TransitionModle/>
+                  <TransferModle />
                 </li>
               </ol>
             </Info>
@@ -149,11 +143,10 @@ export default function Profile() {
                 </li>
               </ol>
             </Info>
-
           </Right>
         </section>
       </ProfileBanner>
       <Tabs />
     </Wrapper>
-  )
+  );
 }
