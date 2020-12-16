@@ -6,11 +6,15 @@ import BigNumber from "bignumber.js";
 
 import { getApi } from "@services/api";
 import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
+import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import {
   isLoginSelector,
   nowAddressSelector,
 } from "@store/reducers/accountSlice";
-import { osnPrecisionSelector } from "@store/reducers/chainSlice";
+import {
+  osnPrecisionSelector,
+  ss58FormatSelector,
+} from "@store/reducers/chainSlice";
 import { addFlashToast, toastType } from "@store/reducers/toastSlice";
 import { freeBalanceSelector } from "@store/reducers/balanceSlice";
 
@@ -65,6 +69,7 @@ export default function () {
   const isLogin = useSelector(isLoginSelector);
   const precision = useSelector(osnPrecisionSelector);
   const free = useSelector(freeBalanceSelector);
+  const ss58Format = useSelector(ss58FormatSelector);
 
   const [open, setOpen] = React.useState(false);
   const [accounts, setAccounts] = React.useState([]);
@@ -77,12 +82,16 @@ export default function () {
       await web3Enable("OpenSquare");
       const allAccounts = await web3Accounts();
       setAccounts(
-        allAccounts.map((item) => ({
-          key: item.address,
-          value: item.address,
-          text: item.address,
-          content: <Item address={item.address} name={item.meta.name} />,
-        }))
+        allAccounts.map((item) => {
+          const pub = decodeAddress(item.address, true);
+          const address = encodeAddress(pub, ss58Format);
+          return {
+            key: address,
+            value: address,
+            text: address,
+            content: <Item address={address} name={item.meta.name} />,
+          };
+        })
       );
     };
     getAllAccounts();
