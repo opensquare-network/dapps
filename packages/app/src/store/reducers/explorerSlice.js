@@ -4,41 +4,41 @@ import api from "@services/explorerApi";
 const explorerSlice = createSlice({
   name: 'explorer',
   initialState: {
-    bounties: {
+    huntableBounties: {
       items: [],
       page: 0,
       pageSize: 10,
       total: 0
     },
-    loadingBounties: false,
+    loadingHuntableBounties: false,
   },
   reducers: {
-    setBounties(state, { payload }) {
-      state.bounties = payload
+    setHuntableBounties(state, { payload }) {
+      state.huntableBounties = payload
     },
-    setLoadingBounties(state, { payload }) {
-      state.loadingBounties = payload
+    setLoadingHuntableBounties(state, { payload }) {
+      state.loadingHuntableBounties = payload
     },
   }
 })
 
 
 export const {
-  setBounties,
-  setLoadingBounties,
+  setHuntableBounties,
+  setLoadingHuntableBounties,
 } = explorerSlice.actions
 
-export const fetchBounties = ({ state }, page = 0, pageSize = 20) => async dispatch => {
-  dispatch(setLoadingBounties(true))
+export const fetchHuntableBounties = (page = 0, pageSize = 20) => async dispatch => {
+  dispatch(setLoadingHuntableBounties(true))
   try {
-    const { result } = await api.fetch('/bounties', { state: (state || ''), page, pageSize })
-    dispatch(setBounties(result))
+    const { result } = await api.fetch('/bounties/huntable', { page, pageSize })
+    dispatch(setHuntableBounties(result))
   } finally {
-    dispatch(setLoadingBounties(false))
+    dispatch(setLoadingHuntableBounties(false))
   }
 }
 
-export const bountiesSelector = state => state.explorer.bounties
-export const bountiesLoadingSelector = state => state.explorer.loadingBounties
+export const huntableBountiesSelector = state => state.explorer.huntableBounties
+export const huntableBountiesLoadingSelector = state => state.explorer.loadingHuntableBounties
 
 export default explorerSlice.reducer

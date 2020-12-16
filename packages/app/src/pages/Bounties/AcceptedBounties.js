@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBounties, bountiesSelector } from "../../store/reducers/explorerSlice";
+import { fetchHuntableBounties, huntableBountiesSelector } from "../../store/reducers/explorerSlice";
 import EmptyBounty from "@pages/Bounties/EmptyBounty";
 import styled from "styled-components";
 import Container from "@components/Container";
@@ -20,10 +20,10 @@ export default function AcceptedBounties() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchBounties({ state: 'Accepted' }, tablePage - 1, tablePageSize))
+    dispatch(fetchHuntableBounties(tablePage - 1, tablePageSize))
   }, [dispatch, tablePage, tablePageSize])
 
-  const { items: bounties, page, pageSize, total } = useSelector(bountiesSelector)
+  const { items: bounties, page, pageSize, total } = useSelector(huntableBountiesSelector)
   const tablePageTotal = Math.ceil(total / pageSize);
 
   if (bounties.length <= 0) {
