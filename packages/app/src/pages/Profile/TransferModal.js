@@ -95,7 +95,7 @@ export default function () {
       );
     };
     getAllAccounts();
-  }, []);
+  }, [ss58Format]);
 
   useEffect(() => {
     if (open === false) {
@@ -114,7 +114,7 @@ export default function () {
       dispatch(addFlashToast(toastType.ERROR, "Please enter an amount"));
       return;
     }
-    if (isNaN(amount) || Number(amount <= 0)) {
+    if (isNaN(amount) || Number(amount) <= 0) {
       dispatch(addFlashToast(toastType.ERROR, "Incorrect amount"));
       return;
     }
@@ -186,16 +186,16 @@ export default function () {
           <Modal.Header>Transfer</Modal.Header>
           <Modal.Content>
             <Modal.Description>
-              <Header>Address</Header>
+              <Header as="h4">Address</Header>
               <Dropdown
                 fluid
                 selection
                 options={accounts}
-                placeholder="Select account..."
+                placeholder="Select or enter address..."
                 value={address}
                 onChange={(_, { value }) => setAddress(value)}
                 search
-                additionLabel="New Address: "
+                additionLabel="New address: "
                 allowAdditions
                 onAddItem={(_, { value }) => {
                   setAccounts([
@@ -209,7 +209,7 @@ export default function () {
                   ]);
                 }}
               />
-              <Header>Amount</Header>
+              <Header as="h4">Amount</Header>
               <Input
                 type="number"
                 fluid
