@@ -24,6 +24,26 @@ const Wrapper = styled.div`
   }
 `;
 
+const OptionWrapper = styled.div`
+  display: flex;
+  aligin-items: center;
+  justify-content: space-between;
+
+  & span:first-child {
+    color: rgba(29, 37, 60, 0.64);
+    font-size: 10px;
+  }
+`;
+
+const Item = ({ address, name }) => {
+  return (
+    <OptionWrapper>
+      <span>{address}</span>
+      <span>{name}</span>
+    </OptionWrapper>
+  );
+};
+
 const CURRENCY_ID = "OSN";
 
 export async function estimateTransferFee(
@@ -60,7 +80,8 @@ export default function () {
         allAccounts.map((item) => ({
           key: item.address,
           value: item.address,
-          text: item.meta.name,
+          text: item.address,
+          content: <Item address={item.address} name={item.meta.name} />,
         }))
       );
     };
@@ -169,7 +190,12 @@ export default function () {
                 allowAdditions
                 onAddItem={(_, { value }) => {
                   setAccounts([
-                    { text: value, key: value, value },
+                    {
+                      text: value,
+                      key: value,
+                      value,
+                      content: <Item address={value} />,
+                    },
                     ...accounts,
                   ]);
                 }}
