@@ -2,7 +2,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api'
 import types from './types'
 
 let api = null;
-const wsProvider = new WsProvider(process.env.WS_ENDPOINT || 'ws://127.0.0.1:9944');
+const wsProvider = new WsProvider(process.env.REACT_APP_WS_ENDPOINT || 'ws://127.0.0.1:9944');
 
 export async function getApi() {
   if (!api) {
