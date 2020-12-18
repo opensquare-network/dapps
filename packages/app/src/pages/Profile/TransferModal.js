@@ -150,7 +150,6 @@ export default function () {
           if (!status.isInBlock) {
             return;
           }
-          dispatch(addFlashToast(toastType.INFO, "Extrinsic inBlock"));
           for (const item of events) {
             const { event } = item;
             const method = event.method;

@@ -142,8 +142,6 @@ export default function ({ avatar, title, amount, currency, labels, info }) {
           return;
         }
 
-        dispatch(addFlashToast(toastType.INFO, "Extrinsic inBlock"));
-
         for (const item of events) {
           const { event } = item;
           const method = event.method;
