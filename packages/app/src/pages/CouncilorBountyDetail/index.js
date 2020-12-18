@@ -16,6 +16,8 @@ import { Divider } from "semantic-ui-react";
 import Detail from "./Detail";
 import Description from "./Description";
 import backArrow from "@static/back-arrow.svg";
+import Address from "@components/Address";
+import DateShow from "@components/DateShow";
 
 const Wrapper = styled(Container)`
   margin-top: 26px;
@@ -68,13 +70,19 @@ export default function () {
   const fakeDetailData = {
     avatar: "",
     labels: ["N/A", "N/A"],
-    info: [
-      {title: "Time Left", content: "N/A"},
-      {title: "Experience Level", content: "N/A"},
-      {title: "Issue Type", content: "N/A"},
-      {title: "Workers Auto Approve", content: "N/A"},
-      {title: "Opened", content: "N/A"},
-    ]
+    info: (
+      bounty
+        ? [
+          {title: "Creator", content: <Address>{bounty.creator}</Address>},
+          {title: "Created At", content: <DateShow value={bounty.indexer.blockTime} />},
+          ...(
+            bounty.state
+              ? [{title: `${bounty.state.state} At`, content: <DateShow value={bounty.state.indexer.blockTime} />}]
+              : []
+          )
+        ]
+        : []
+    )
   };
 
   return (

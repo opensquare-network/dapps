@@ -32,7 +32,7 @@ const Nav = styled.nav`
   color: rgba(29, 37, 60, 0.64);
   margin-bottom: 26px;
   display: inline-flex;
-  aligin-items: center;
+  align-items: center;
   gap: 10px;
 `
 

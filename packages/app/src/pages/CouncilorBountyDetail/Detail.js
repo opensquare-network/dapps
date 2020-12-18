@@ -180,7 +180,7 @@ export default function ({ avatar, title, amount, currency, labels, info }) {
             <TitleWrapper>
               <span className="title">{title || ""}</span>
               <div className="payment">
-                {toPrecision(amount, osnPrecision, osnPrecision)} {currency}
+                {toPrecision(amount, osnPrecision, false)} {currency}
               </div>
             </TitleWrapper>
             <LabelWrapper>
