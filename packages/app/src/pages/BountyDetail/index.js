@@ -96,7 +96,7 @@ export default function () {
   return (
     <Wrapper>
       <NavLink to="/">
-        <Nav><img src={backArrow} alt="back arrow"/> Back to issue Explorer</Nav>
+        <Nav><img src={backArrow} alt="back arrow"/> Back to bounty Explorer</Nav>
       </NavLink>
       <Content>
         <Detail title={title} amount={amount} currency={currency} {...detailData} />
